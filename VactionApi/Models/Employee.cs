@@ -8,12 +8,12 @@ namespace vacation_System.Models
     public class Employee
     {
  
-        public int id { get; set; }
+        public int ID { get; set; }
         public string Username { get; set; }
-        public string password  { get; set; }
-        public int vacations { get; set; }
+        public string Password  { get; set; }
+        public int Vacations { get; set; }
 
-        public bool status { get; set; }
+        public bool Status { get; set; }
          
 
    

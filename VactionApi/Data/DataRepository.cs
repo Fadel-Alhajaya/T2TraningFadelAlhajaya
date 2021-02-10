@@ -19,7 +19,7 @@ namespace VactionApi.Data
         public Task<Employee> Login(string username, string password)
         {
             var Emp = _context.Employeess.FirstOrDefaultAsync(x => x.Username == username);
-            var pass= _context.Employeess.FirstOrDefaultAsync(x => x.password == password);
+            var pass= _context.Employeess.FirstOrDefaultAsync(x => x.Password == password);
             if (Emp == null && pass == null)
             {
                 return null;
@@ -32,7 +32,7 @@ namespace VactionApi.Data
         public Task<Manger> LoginForManger(string username, int id)
         {
             var manger = _context.Managerss.FirstOrDefaultAsync(x => x.Username == username);
-            var pass = _context.Managerss.FirstOrDefaultAsync(x => x.id == id);
+            var pass = _context.Managerss.FirstOrDefaultAsync(x => x.Id == id);
             if (manger == null && pass == null)
             {
                 return null;

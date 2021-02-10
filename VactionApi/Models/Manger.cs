@@ -7,7 +7,7 @@ namespace vacation_System.Models
 {
     public class Manger
     {
-            public int id { get; set; }
+            public int Id { get; set; }
             public string Username { get; set; }
 
             public ICollection<Employee> Employees;

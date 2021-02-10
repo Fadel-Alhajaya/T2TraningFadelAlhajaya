@@ -12535,11 +12535,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\n\\source\\repos\\VactionApi\\VactionApi.csproj",
+      "projectUniqueName": "C:\\Users\\n\\TraningProject\\T2TraningFadelAlhajaya\\VactionApi\\VactionApi.csproj",
       "projectName": "VactionApi",
-      "projectPath": "C:\\Users\\n\\source\\repos\\VactionApi\\VactionApi.csproj",
+      "projectPath": "C:\\Users\\n\\TraningProject\\T2TraningFadelAlhajaya\\VactionApi\\VactionApi.csproj",
       "packagesPath": "C:\\Users\\n\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\n\\source\\repos\\VactionApi\\obj\\",
+      "outputPath": "C:\\Users\\n\\TraningProject\\T2TraningFadelAlhajaya\\VactionApi\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

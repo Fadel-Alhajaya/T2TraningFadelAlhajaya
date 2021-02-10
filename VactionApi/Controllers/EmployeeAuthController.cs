@@ -1,10 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Mvc;
+
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+
 using vacation_System.Models;
+
 using VactionApi.Data;
 
 namespace VactionApi.Controllers
@@ -15,20 +14,20 @@ namespace VactionApi.Controllers
     {
         private readonly IRepositry _repo;
 
-        public EmployeeAuthController( IRepositry repo)
+        public EmployeeAuthController(IRepositry repo)
         {
-            _repo = repo;      
+            _repo = repo;
         }
         // GET: api/EmployeeAuth
         //[HttpGet]
-        //public IEnumerable<string> Get()
+        //public string IActionResult  Get()
         //{
-            
+        //    return "value";
         //}
 
-        // GET: api/EmployeeAuth/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        //  GET: api/EmployeeAuth/
+        [HttpGet]
+        public string Get()
         {
             return "value";
         }
@@ -52,16 +51,6 @@ namespace VactionApi.Controllers
             return Ok(CreatedEmp);
         }
 
-        // PUT: api/EmployeeAuth/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+       
     }
 }
