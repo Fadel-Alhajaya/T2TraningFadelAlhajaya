@@ -14,6 +14,10 @@ namespace VactionApi.Data
         Task<Employee> Login(string username, string password);
 
         Task<bool> UserExists(string username);
+
+
+
+
         
 
     }

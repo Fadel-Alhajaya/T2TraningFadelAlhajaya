@@ -50,7 +50,21 @@ namespace VactionApi.Controllers
 
             return Ok(CreatedEmp);
         }
+        [HttpPost("employeeLogin")]
+        public async Task<IActionResult> LoginForEmployee(string username, string password)
+        {
 
-       
+            var userFromRepo = await _repo.Login(username.ToLower(), password);
+
+
+            if (userFromRepo == null)
+            {
+                return Unauthorized();
+            }
+            if (await _repo.UserExists(username))
+                return BadRequest("Employee is already Exists");
+            return Ok(userFromRepo);
+        }
     }
 }
+
