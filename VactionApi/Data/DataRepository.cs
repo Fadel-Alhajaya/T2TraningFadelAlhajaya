@@ -19,11 +19,11 @@ namespace VactionApi.Data
         public Task<Employee> Login(string username, string password)
         {
             var Emp = _context.Employeess.FirstOrDefaultAsync(x => x.Username == username);
-            var pass= _context.Employeess.FirstOrDefaultAsync(x => x.Password == password);
+            var pass = _context.Employeess.FirstOrDefaultAsync(x => x.Password == password);
             if (Emp == null && pass == null)
             {
                 return null;
-                
+
             }
             return Emp;
 
@@ -40,6 +40,16 @@ namespace VactionApi.Data
             }
             return manger;
 
+        }
+
+        public async Task<bool> MangerExists(string username)
+        {
+            if (await _context.Managerss.AnyAsync(x => x.Username == username))
+            {
+                return true;
+            }
+
+            return false;
         }
 
         public async Task<Employee> Register(Employee E)
@@ -60,12 +70,16 @@ namespace VactionApi.Data
 
         public async Task<bool> UserExists(string username)
         {
-            if (await _context.Employeess.AnyAsync(x => x.Username == username))
-                {
-                return true;
-                 }
            
-           return false;
+                if (await _context.Employeess.AnyAsync(x => x.Username == username))
+
+                   return true;
+           
+
+            return false;
         }
+
+
     }
 }
+

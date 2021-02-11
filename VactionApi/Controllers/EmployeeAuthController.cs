@@ -1,5 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections;
+using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
 using vacation_System.Models;
@@ -10,23 +16,20 @@ namespace VactionApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("CorePolicy")]
     public class EmployeeAuthController : ControllerBase
     {
         private readonly IRepositry _repo;
+        private readonly DataContext _context;
 
-        public EmployeeAuthController(IRepositry repo)
+        public EmployeeAuthController(IRepositry repo, DataContext context)
         {
             _repo = repo;
+            _context = context;
         }
-        // GET: api/EmployeeAuth
-        //[HttpGet]
-        //public string IActionResult  Get()
-        //{
-        //    return "value";
-        //}
 
         //  GET: api/EmployeeAuth/
-        [HttpGet]
+        [HttpGet("get")]
         public string Get()
         {
             return "value";
@@ -34,16 +37,23 @@ namespace VactionApi.Controllers
 
         // POST: api/EmployeeAuth
         [HttpPost("register")]
-        public async Task<IActionResult> Register(string username)
+        public async Task<IActionResult> Register(Employee Emp)
         {
-            username = username.ToLower();
+            Emp.Username = Emp.Username.ToLower();
+            //  var EmployeeInfo = _context.Employeess.FirstOrDefault(x => x.Username == username);
+            //  if (EmployeeInfo != null)
 
-            if (await _repo.UserExists(username))
+            if (await _repo.UserExists(Emp.Username))
+            {
                 return BadRequest("Employee is already Exists");
-
+            }
             var EmpCreate = new Employee
             {
-                Username = username,
+                Username =Emp.Username ,
+                Password=Emp.Password,
+                Vacations=0,
+                Status=true
+                
 
             };
             var CreatedEmp = await _repo.Register(EmpCreate);
@@ -51,19 +61,24 @@ namespace VactionApi.Controllers
             return Ok(CreatedEmp);
         }
         [HttpPost("employeeLogin")]
-        public async Task<IActionResult> LoginForEmployee(string username, string password)
+        public async Task<IActionResult> LoginForEmployee(Employee Emp)
         {
+            if(Emp==null)
+                return BadRequest("Employee is null");
 
-            var userFromRepo = await _repo.Login(username.ToLower(), password);
+            var userFromRepo = await _repo.Login(Emp.Username.ToLower(), Emp.Password);
 
 
             if (userFromRepo == null)
             {
                 return Unauthorized();
             }
-            if (await _repo.UserExists(username))
-                return BadRequest("Employee is already Exists");
             return Ok(userFromRepo);
+        }
+        [HttpGet("getEmployee")]
+        public IEnumerable GetEmployee()
+        {
+            return _context.Employeess;
         }
     }
 }
