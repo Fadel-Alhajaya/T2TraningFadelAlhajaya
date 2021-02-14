@@ -1,27 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { error } from '@angular/compiler/src/util';
 
 @Component({
-  selector: 'app-employees',
-  templateUrl: './employees.component.html',
-  styleUrls: ['./employees.component.css']
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
 })
-export class EmployeesComponent implements OnInit {
- Employees:any;
+export class HomeComponent implements OnInit {
+  registerMode=false;
   constructor( private http:HttpClient) { }
-
+  Employees:any;
   ngOnInit(): void {
-    this.getEmployee();
+  this.getEmployee();
   }
-
+  rejesterToggel()
+  {
+    this.registerMode=!this.registerMode;
+  }
   getEmployee()
   {
 this.http.get("https://localhost:5001/api/EmployeeAuth/getEmployee").subscribe(
   response =>{this.Employees=response;},
 error=>{console.log(error);})
 }
-  }
-  
-
-
+}
