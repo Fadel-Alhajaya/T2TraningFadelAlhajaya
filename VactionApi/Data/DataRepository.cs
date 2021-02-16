@@ -16,6 +16,14 @@ namespace VactionApi.Data
         {
             _context = context;
         }
+
+        //public async Task<Vacation> AddVaction(Vacation v)
+        //{
+        // //   await _context.Vactionss.AddAsync(v);
+        //    await _context.SaveChangesAsync();
+        //    return v;
+        //}
+
         public Task<Employee> Login(string username, string password)
         {
             var Emp = _context.Employeess.FirstOrDefaultAsync(x => x.Username == username);
@@ -29,10 +37,10 @@ namespace VactionApi.Data
 
         }
 
-        public Task<Manger> LoginForManger(string username, int id)
+        public Task<Manger> LoginForManger(string username, string password)
         {
             var manger = _context.Managerss.FirstOrDefaultAsync(x => x.Username == username);
-            var pass = _context.Managerss.FirstOrDefaultAsync(x => x.Id == id);
+            var pass = _context.Managerss.FirstOrDefaultAsync(x => x.Password == password);
             if (manger == null && pass == null)
             {
                 return null;
@@ -41,6 +49,8 @@ namespace VactionApi.Data
             return manger;
 
         }
+
+       
 
         public async Task<bool> MangerExists(string username)
         {

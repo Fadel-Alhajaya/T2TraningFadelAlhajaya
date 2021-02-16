@@ -51,6 +51,7 @@ namespace VactionApi
 
             app.UseCors("CorePolicy");
             app.UseMvc();
+           
         }
     }
 }

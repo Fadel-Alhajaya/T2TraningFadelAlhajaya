@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Hosting.Internal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,11 +15,17 @@ namespace vacation_System.Models
         public int Vacations { get; set; }
 
         public bool Status { get; set; }
-         
 
-   
- 
-}
+        public ICollection<Vacation> Vacation { get; set; }
+
+        public Manger EmpManger { get; set; }
+        public int MangerID { get; set; }
+
+
+
 
     }
+
+    
+}
 

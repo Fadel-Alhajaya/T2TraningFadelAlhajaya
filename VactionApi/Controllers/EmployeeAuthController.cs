@@ -41,20 +41,17 @@ namespace VactionApi.Controllers
         public async Task<IActionResult> Register(Employee Emp)
         {
             Emp.Username = Emp.Username.ToLower();
-            //  var EmployeeInfo = _context.Employeess.FirstOrDefault(x => x.Username == username);
-            //  if (EmployeeInfo != null)
-
             if (await _repo.UserExists(Emp.Username))
             {
                 return BadRequest("Employee is already Exists");
             }
             var EmpCreate = new Employee
             {
-                Username =Emp.Username ,
-                Password=Emp.Password,
-                Vacations=0,
-                Status=true
-                
+                Username = Emp.Username,
+                Password = Emp.Password,
+                MangerID = 1,
+                Vacations = 16,
+                Status = true   
 
             };
             var CreatedEmp = await _repo.Register(EmpCreate);

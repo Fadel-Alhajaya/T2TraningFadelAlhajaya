@@ -28,42 +28,37 @@ namespace VactionApi.Controllers
         [HttpPost("MangerRegister")]
         public async Task<IActionResult> RegisterManger(Manger M)
         {
-           M.Username  = M.Username.ToLower();
-            
-
-            var Mangers = await _context.Managerss.AnyAsync(x => x.Username == M.Username.ToLower());
-            if(Mangers)
+            M.Username = M.Username.ToLower();
+            if (await _repo.MangerExists(M.Username))
             {
-                return BadRequest("Manger is already Registerd");
+                return BadRequest("Manger is already Exists");
             }
-
-            var MangerCreate = new Manger
+            var ManCreate = new Manger
             {
                 Username = M.Username,
+                Password = M.Password,
+              
             };
-            var CreatedMan = await _repo.RegisterForManger(MangerCreate);
+            var CreatedMan = await _repo.RegisterForManger(ManCreate);
 
             return Ok(CreatedMan);
+           
         }
         [HttpPost("MangerLogin")]
         public async Task<IActionResult> LoginForManger(Manger m)
         {
             if (m == null)
                 return BadRequest("Manger is null");
-            var MangerFrorepo = await _repo.LoginForManger(m.Username.ToLower(), m.Id );
+
+            var Mangerr = await _repo.LoginForManger(m.Username,m.Password);
 
 
-            if (MangerFrorepo == null)
+            if (Mangerr == null)
             {
                 return Unauthorized();
             }
-            return Ok(MangerFrorepo);
-            //var Mangers = await _context.Managerss.AnyAsync(x => x.Id ==m.Id);
-            //if (Mangers)
-            //{
-            //    return BadRequest("manger is already Registerd");
-            //}
-
+            return Ok(Mangerr); 
+          
 
         }
     }
