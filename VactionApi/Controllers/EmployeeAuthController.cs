@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Cors;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -75,6 +76,7 @@ namespace VactionApi.Controllers
             }
             return Ok(userFromRepo);
         }
+        [AllowAnonymous]
         [HttpGet("getEmployee")]
         public IEnumerable GetEmployee()
         {

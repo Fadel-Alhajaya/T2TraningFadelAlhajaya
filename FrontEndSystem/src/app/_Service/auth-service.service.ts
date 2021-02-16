@@ -7,6 +7,8 @@ import { map } from 'rxjs/operators';
 })
 export class AuthServiceService {
   baseUrl="https://localhost:5001/api/EmployeeAuth/";
+  name:any;
+  loggedin:boolean=false;
 
   constructor( private http:HttpClient) {
     
@@ -20,6 +22,8 @@ return this.http.post(this.baseUrl+"employeeLogin" ,model).pipe(
     const user=response;
     if(user)
     {localStorage.setItem("user",user.username);
+    this.name=user.username;
+    this.loggedin=true;
   }
   }
   ) );

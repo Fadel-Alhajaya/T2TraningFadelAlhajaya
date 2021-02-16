@@ -1,18 +1,18 @@
 
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
-  <a class="navbar-brand" href="#">Vactions System</a>
+<nav class="navbar navbar-expand-md navbar-dark  bg-dark">
+  <a class="navbar-brand" [routerLink]="['/home']">Vactions System</a>
   
 
   
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">Home </a>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/home']">Home </a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Vactions Request</a>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/requests']">Vactions Request</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link " href="#">Add Employee</a>
+      <li class="nav-item" routerLinkActive="active">
+        <a class="nav-link  " [routerLink]="['/employee']">Add Employee</a>
 
         <li class="nav-item">
           <a class="nav-link " (click)="logout()">Log-out</a>
@@ -20,7 +20,7 @@
     </ul>
     <div *ngIf="loggedIn()" class="dropdown">
       <a class="dropdown-toggle text-light">
-        Welcom Employee
+        Welcom {{users}}
       </a>
       <div class="dropdown-menu" >
         <a class="dropdown-item" href="#"><i class="fa fa-user"></i>Edit profile</a>
