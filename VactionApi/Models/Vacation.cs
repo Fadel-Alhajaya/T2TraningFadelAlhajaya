@@ -4,7 +4,7 @@ namespace vacation_System.Models
 {
     public class Vacation
     {
-        public int id { get; set; }
+        public int Id { get; set; }
         public string Type { get; set; }
         public DateTime VactionDate { get; set; }
         public string Description { get; set; }

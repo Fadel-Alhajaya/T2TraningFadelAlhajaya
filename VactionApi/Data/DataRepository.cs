@@ -97,7 +97,17 @@ namespace VactionApi.Data
         }
          public async Task<bool> VacationExists(int id)
         {
-            if ( await _context.Vactionss.AnyAsync(e => e.id == id))
+            if ( await _context.Vactionss.AnyAsync(e => e.Id == id))
+                return true;
+
+
+            return false;
+        }
+
+        public async Task<bool> VacationValid(Vacation V)
+        {
+            var v = await _context.Vactionss.FirstOrDefaultAsync(e => e.Id == V.Id);
+            if(v.Employees.Status==true && v.Employees.Vacations <= 16)
                 return true;
 
 

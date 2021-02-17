@@ -18,7 +18,9 @@ namespace VactionApi.Data
        Task<Vacation> AddVaction(Vacation v);
         Task<Vacation> UpdateVacation(Vacation v);
         Task<bool> VacationExists(int id);
-        
+        Task<bool> VacationValid(Vacation V)
+
+
 
 
 
