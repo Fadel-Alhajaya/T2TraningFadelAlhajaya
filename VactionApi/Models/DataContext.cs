@@ -14,6 +14,6 @@ namespace vacation_System.Models
        
         public DbSet<Employee> Employeess { get; set; }
         public DbSet<Manger> Managerss { get; set; }
-        public DbSet<Manger> Vactionss{ get; set; }
+        public DbSet<Vacation> Vactionss{ get; set; }
     }
 }

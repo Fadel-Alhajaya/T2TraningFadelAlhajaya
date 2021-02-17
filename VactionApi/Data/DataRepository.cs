@@ -17,12 +17,7 @@ namespace VactionApi.Data
             _context = context;
         }
 
-        //public async Task<Vacation> AddVaction(Vacation v)
-        //{
-        // //   await _context.Vactionss.AddAsync(v);
-        //    await _context.SaveChangesAsync();
-        //    return v;
-        //}
+        
 
         public Task<Employee> Login(string username, string password)
         {
@@ -85,6 +80,26 @@ namespace VactionApi.Data
 
                    return true;
            
+
+            return false;
+        }
+        public async Task<Vacation> AddVaction(Vacation v)
+        {
+            await _context.Vactionss.AddAsync(v);
+            await _context.SaveChangesAsync();
+            return v;
+        }
+        public async Task<Vacation> UpdateVacation(Vacation v)
+        {
+            _context.Vactionss.Update(v);
+            await _context.SaveChangesAsync();
+            return v;
+        }
+         public async Task<bool> VacationExists(int id)
+        {
+            if ( await _context.Vactionss.AnyAsync(e => e.id == id))
+                return true;
+
 
             return false;
         }

@@ -8,13 +8,10 @@ namespace VactionApi.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_Managerss",
-                table: "Managerss");
-
-            migrationBuilder.RenameTable(
-                name: "Managerss",
-                newName: "Manger");
+            migrationBuilder.RenameColumn(
+                name: "id",
+                table: "Managerss",
+                newName: "Id");
 
             migrationBuilder.RenameColumn(
                 name: "vacations",
@@ -36,10 +33,10 @@ namespace VactionApi.Migrations
                 table: "Employeess",
                 newName: "ID");
 
-            migrationBuilder.RenameColumn(
-                name: "id",
-                table: "Manger",
-                newName: "Id");
+            migrationBuilder.AddColumn<string>(
+                name: "Password",
+                table: "Managerss",
+                nullable: true);
 
             migrationBuilder.AddColumn<int>(
                 name: "MangerID",
@@ -47,43 +44,26 @@ namespace VactionApi.Migrations
                 nullable: false,
                 defaultValue: 0);
 
-            migrationBuilder.AddColumn<string>(
-                name: "Password",
-                table: "Manger",
-                nullable: true);
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_Manger",
-                table: "Manger",
-                column: "Id");
-
             migrationBuilder.CreateTable(
-                name: "Vacation",
+                name: "Vactionss",
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    VactionDate = table.Column<DateTime>(nullable: false),
                     Type = table.Column<string>(nullable: true),
+                    VactionDate = table.Column<DateTime>(nullable: false),
                     Description = table.Column<string>(nullable: true),
                     EmployeesID = table.Column<int>(nullable: true),
-                    EmpID = table.Column<int>(nullable: false),
-                    MangerId = table.Column<int>(nullable: true)
+                    EmpID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Vacation", x => x.id);
+                    table.PrimaryKey("PK_Vactionss", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Vacation_Employeess_EmployeesID",
+                        name: "FK_Vactionss_Employeess_EmployeesID",
                         column: x => x.EmployeesID,
                         principalTable: "Employeess",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Vacation_Manger_MangerId",
-                        column: x => x.MangerId,
-                        principalTable: "Manger",
-                        principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -93,20 +73,15 @@ namespace VactionApi.Migrations
                 column: "MangerID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Vacation_EmployeesID",
-                table: "Vacation",
+                name: "IX_Vactionss_EmployeesID",
+                table: "Vactionss",
                 column: "EmployeesID");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Vacation_MangerId",
-                table: "Vacation",
-                column: "MangerId");
-
             migrationBuilder.AddForeignKey(
-                name: "FK_Employeess_Manger_MangerID",
+                name: "FK_Employeess_Managerss_MangerID",
                 table: "Employeess",
                 column: "MangerID",
-                principalTable: "Manger",
+                principalTable: "Managerss",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
         }
@@ -114,31 +89,28 @@ namespace VactionApi.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Employeess_Manger_MangerID",
+                name: "FK_Employeess_Managerss_MangerID",
                 table: "Employeess");
 
             migrationBuilder.DropTable(
-                name: "Vacation");
+                name: "Vactionss");
 
             migrationBuilder.DropIndex(
                 name: "IX_Employeess_MangerID",
                 table: "Employeess");
 
-            migrationBuilder.DropPrimaryKey(
-                name: "PK_Manger",
-                table: "Manger");
+            migrationBuilder.DropColumn(
+                name: "Password",
+                table: "Managerss");
 
             migrationBuilder.DropColumn(
                 name: "MangerID",
                 table: "Employeess");
 
-            migrationBuilder.DropColumn(
-                name: "Password",
-                table: "Manger");
-
-            migrationBuilder.RenameTable(
-                name: "Manger",
-                newName: "Managerss");
+            migrationBuilder.RenameColumn(
+                name: "Id",
+                table: "Managerss",
+                newName: "id");
 
             migrationBuilder.RenameColumn(
                 name: "Vacations",
@@ -159,16 +131,6 @@ namespace VactionApi.Migrations
                 name: "ID",
                 table: "Employeess",
                 newName: "id");
-
-            migrationBuilder.RenameColumn(
-                name: "Id",
-                table: "Managerss",
-                newName: "id");
-
-            migrationBuilder.AddPrimaryKey(
-                name: "PK_Managerss",
-                table: "Managerss",
-                column: "id");
         }
     }
 }

@@ -54,7 +54,7 @@ namespace VactionApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Manger");
+                    b.ToTable("Managerss");
                 });
 
             modelBuilder.Entity("vacation_System.Models.Vacation", b =>
@@ -69,8 +69,6 @@ namespace VactionApi.Migrations
 
                     b.Property<int?>("EmployeesID");
 
-                    b.Property<int?>("MangerId");
-
                     b.Property<string>("Type");
 
                     b.Property<DateTime>("VactionDate");
@@ -79,9 +77,7 @@ namespace VactionApi.Migrations
 
                     b.HasIndex("EmployeesID");
 
-                    b.HasIndex("MangerId");
-
-                    b.ToTable("Vacation");
+                    b.ToTable("Vactionss");
                 });
 
             modelBuilder.Entity("vacation_System.Models.Employee", b =>
@@ -97,10 +93,6 @@ namespace VactionApi.Migrations
                     b.HasOne("vacation_System.Models.Employee", "Employees")
                         .WithMany("Vacation")
                         .HasForeignKey("EmployeesID");
-
-                    b.HasOne("vacation_System.Models.Manger")
-                        .WithMany("Vacationss")
-                        .HasForeignKey("MangerId");
                 });
 #pragma warning restore 612, 618
         }

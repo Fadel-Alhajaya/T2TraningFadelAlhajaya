@@ -12,7 +12,7 @@ namespace vacation_System.Models
            public string Password { get; set; }
 
            public ICollection<Employee> Employees;
-        public ICollection<Vacation> Vacationss  { get; set; }
+        //public ICollection<Vacation> Vacationss  { get; set; }
     }
     }
 
