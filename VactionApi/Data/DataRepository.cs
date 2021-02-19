@@ -89,12 +89,7 @@ namespace VactionApi.Data
             await _context.SaveChangesAsync();
             return v;
         }
-        public async Task<Vacation> UpdateVacation(Vacation v)
-        {
-            _context.Vactionss.Update(v);
-            await _context.SaveChangesAsync();
-            return v;
-        }
+       
          public async Task<bool> VacationExists(int id)
         {
             if ( await _context.Vactionss.AnyAsync(e => e.Id == id))
@@ -104,11 +99,11 @@ namespace VactionApi.Data
             return false;
         }
 
-        public async Task<bool> VacationValid(Vacation V)
+        public bool VacationValid(Employee Emp)
         {
-            var v = await _context.Vactionss.FirstOrDefaultAsync(e => e.Id == V.Id);
-            if(v.Employees.Status==true && v.Employees.Vacations <= 16)
-                return true;
+          
+            if(Emp.Status==true && Emp.Vacations <= 16)
+                return  true;
 
 
             return false;

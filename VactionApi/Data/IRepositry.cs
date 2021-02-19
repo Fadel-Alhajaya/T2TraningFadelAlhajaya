@@ -16,9 +16,9 @@ namespace VactionApi.Data
         Task<bool> UserExists(string username);
         Task<bool> MangerExists(string username);
        Task<Vacation> AddVaction(Vacation v);
-        Task<Vacation> UpdateVacation(Vacation v);
+       
         Task<bool> VacationExists(int id);
-        Task<bool> VacationValid(Vacation V)
+        bool VacationValid(Employee Emp);
 
 
 
