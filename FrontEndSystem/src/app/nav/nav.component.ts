@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthServiceService } from '../_Service/auth-service.service';
 import { error } from '@angular/compiler/src/util';
 import { AlertifyService } from '../_Service/alertify.service';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-nav',
@@ -11,10 +12,14 @@ import { AlertifyService } from '../_Service/alertify.service';
 export class NavComponent implements OnInit {
   model :any={};
   users:string;
-
-  constructor( private authService:AuthServiceService, private alertfy:AlertifyService) { }
+  Employees:any;
+  registerMode=false;
+  constructor( private http:HttpClient, private authService:AuthServiceService, private alertfy:AlertifyService) {
+    
+   }
 
   ngOnInit(): void {
+    this.getEmployee();
   }
   login()
   {
@@ -42,5 +47,26 @@ return !!User;
     this.alertfy.message("logged out");
     
   }
+  getEmployee()
+  {
+this.http.get("https://localhost:5001/api/EmployeeAuth/getEmployee").subscribe(
+  response =>{this.Employees=response;},
+error=>{console.log(error);})
+}
+rejesterToggel()
+{
+  this.registerMode=!this.registerMode;
+}
+Switch(){
+
+  localStorage.removeItem("user");
+
 
 }
+
+}
+
+ 
+ 
+
+

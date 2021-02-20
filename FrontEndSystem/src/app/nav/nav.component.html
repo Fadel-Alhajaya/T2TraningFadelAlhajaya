@@ -1,12 +1,12 @@
 
-<nav class="navbar navbar-expand-md navbar-dark  bg-dark">
-  <a class="navbar-brand" [routerLink]="['/home']">Vactions System</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" [routerLink]="['/**']">Vactions System</a>
   
 
   
     <ul class="navbar-nav mr-auto">
       <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="['/home']">Home </a>
+        <a class="nav-link" [routerLink]="['/nav']">Home </a>
       </li>
       <li class="nav-item" routerLinkActive="active">
         <a class="nav-link" [routerLink]="['/requests']">Vactions Request</a>
@@ -36,3 +36,18 @@
     </form>
  
 </nav>
+
+<section class="container">
+  
+  <div  *ngIf="!registerMode" class=" jumbotron text-center">
+    <h1 class="jumbotron-heading"> Now you can Have A Vaction Day</h1>
+    <p style="font-size: large"  class="text-muted">Welcome Employee</p>
+  <p *ngIf="!loggedIn()" style="font-size: large"  class="text-muted">No account! Register</p>
+    <p class="lead text-muted">Rejester to the System</p>
+    <p>
+      <button *ngIf="!loggedIn()"  hr href="#" class="btn btn-primary my-2 mr-2" [routerLink]="['/register']"  routerLinkActive="active" (click)="rejesterToggel()">Register</button>
+      <a href="#" class="btn btn-secondary my-2 mr-2">Learn More</a>
+    </p>
+
+  </div>
+</section>

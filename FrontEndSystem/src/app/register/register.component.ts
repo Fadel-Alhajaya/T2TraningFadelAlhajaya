@@ -28,6 +28,18 @@ model:any={};
     this.alertify.warning("Canceled");
     
   }
+  loggedIn()
+  {
+const User=localStorage.getItem("user");
+return !!User;
+
+  }
+  logout()
+  {
+    localStorage.removeItem("user");
+    this.alertify.message("logged out");
+    
+  }
   
 
 
