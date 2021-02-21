@@ -17,12 +17,12 @@ import { EmployeesComponent } from './employees/employees.component';
 import { routes } from './routes';
 import { AuthGuard } from './_guards/auth.guard';
 import { MangeComponent } from './mange/mange.component';
+import { VactionsService } from './_Service/vactions.service';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-
     LoginComponent,
     NavComponent,
     RegisterComponent,
@@ -39,7 +39,8 @@ import { MangeComponent } from './mange/mange.component';
   providers: [
     AuthServiceService,
    AlertifyService,
-   AuthGuard
+   AuthGuard,
+   VactionsService
 
   ],
   bootstrap: [AppComponent]

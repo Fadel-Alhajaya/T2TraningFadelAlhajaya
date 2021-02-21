@@ -1,1 +1,26 @@
-<p>hi </p>
+<div class="container">
+    <div class="row ">
+      <div class="col-lg-12 ">
+<table class="table table-bordered  table-striped text-center table-hover mt-4">
+    <thead class="bg-info">
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Type</th>
+        <th scope="col">Vaction Date</th>
+        <th scope="col">Description</th>
+        <th scope="col">Employee Id</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of Vactions">
+        <td>{{item.id}}</td>
+        <td>{{item.type}}</td>
+        <td>{{item.vactionDate}}</td>
+        <td>{{item.description}}</td>
+        <td>{{item.empID}}</td>
+      </tr>
+      </tbody>
+      </table>
+      </div>
+      </div>
+</div>

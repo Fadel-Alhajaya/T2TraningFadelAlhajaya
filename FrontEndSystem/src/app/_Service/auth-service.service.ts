@@ -9,6 +9,7 @@ export class AuthServiceService {
   baseUrl="https://localhost:5001/api/EmployeeAuth/";
   name:any;
   loggedin:boolean=false;
+  id:any;
 
   constructor( private http:HttpClient) {
     
@@ -21,8 +22,9 @@ return this.http.post(this.baseUrl+"employeeLogin" ,model).pipe(
   {
     const user=response;
     if(user)
-    {localStorage.setItem("user",user.username);
+    {localStorage.setItem("user",user.id);
     this.name=user.username;
+   this.id=user.id;
     this.loggedin=true;
   }
   }
@@ -31,6 +33,7 @@ return this.http.post(this.baseUrl+"employeeLogin" ,model).pipe(
   register(model:any)
   {
 return this.http.post(this.baseUrl+"register",model);
+this.loggedin=true;
 
   }
 }
