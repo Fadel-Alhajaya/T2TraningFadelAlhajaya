@@ -19,13 +19,14 @@ namespace VactionApi.Controllers
     [EnableCors("CorePolicy")]
     public class VacationsRequestsController : ControllerBase
     {
-        private readonly DataContext _context;
-        private readonly IRepositry _repo;
 
-        public VacationsRequestsController(IRepositry repo, DataContext context)
+        private readonly IRepositry<Vacation> _repo;
+        private readonly DataContext _context;
+
+        public VacationsRequestsController(IRepositry<Vacation> repo, DataContext context)
         {
-            _context = context;
             _repo = repo;
+            _context = context;
         }
 
         // GET: api/VacationsRequests/1
@@ -33,7 +34,7 @@ namespace VactionApi.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetsingelVactionss(int id)
         {
-            if (await _context.Employeess.AnyAsync(x => x.ID == id))
+            if (await _context.Vactionss.AnyAsync(x => x.Id == id))
             {
                 var td = (from V in _context.Vactionss
                           join Emp in _context.Employeess on id equals Emp.ID
@@ -47,9 +48,10 @@ namespace VactionApi.Controllers
                               V.Description,
                               V.EmpID
                           }).ToList();
+                return Ok();
 
-                return Ok(td);
             }
+           
             return Unauthorized();
         }
 
@@ -59,75 +61,62 @@ namespace VactionApi.Controllers
         [HttpGet("allvaction")]
         public async Task<IActionResult> GetAllVacations()
         {
-            var AllVactions = await _context.Vactionss.ToListAsync();
+            var AllVactions = await _repo.GetAllEntity();
 
             return Ok(AllVactions);
         }
         [HttpPost]
         [Route("add_vactions")]
-        public async Task<IActionResult> AddVactions(Vacation V)
+        public async Task<IActionResult> AddVactions(Vacation v)
         {
 
-            if (await _context.Employeess.AnyAsync(x => x.ID == V.EmpID))
+            if (await _repo.CheckEntity(v,v.EmpID))
             {
-
-
-                if (V.Employees.Status == true && V.Employees.Vacations <= 16)
-                {
-                    var CreateVaction = new Vacation
+                    var createVaction = new Vacation
                     {
 
-                        Type = V.Type,
-                        VactionDate = V.VactionDate,
-                        Description = V.Description,
-                        EmpID = V.EmpID,
+                        Type = v.Type,
+                        VactionDate = v.VactionDate,
+                        Description = v.Description,
+                        EmpID = v.EmpID,
 
                     };
 
-                    var InsertVaction = await _repo.AddVaction(CreateVaction);
+                    var insertVaction = await _repo.AddEntity(createVaction);
 
-                    return Ok(new { InsertVaction = "Vaction added!" });
-                }
+                    return Ok(new { insertVaction = "Vaction added!" });
+
             }
             else
             {
                 return BadRequest("Vaction is not Vaild ");
             }
-            return Unauthorized();
+           
         }
         [HttpPost]
         [Route("update_Vactions/{id}")]
-        public async Task< IActionResult> UpdateVaction(Vacation V, int id)
+        public async Task<IActionResult> UpdateVaction(Vacation v, int id)
         {
 
-            if ( await _context.Employeess.AnyAsync(x => x.ID == id))
+            if (await _repo.CheckEntity(v, id))
             {
-                var entity =  _context.Vactionss.FirstOrDefault(item => item.Id == V.Id);
+                var entity = _repo.FindEntity(v);
 
                 if (entity != null)
                 {
-                       
-                        entity.Type = V.Type;
-                        entity.VactionDate = V.VactionDate;
-                        entity.Description = V.Description;
-
-
-                    _context.Vactionss.Update(entity);
-                    await _context.SaveChangesAsync();
+                    await _repo.Update(v);
                     return Ok("Your Vaction have updated");
-                    }
-                    else
-                    {
-                        return BadRequest("Error in Process");
-                    }
-                   
                 }
+                else
+                {
+                    return BadRequest("Error in Process");
+                }
+
+            }
             return Unauthorized();
 
-        
-           
+        }
         }
     }
-}
         
     

@@ -20,13 +20,12 @@ namespace VactionApi.Controllers
     [EnableCors("CorePolicy")]
     public class EmployeeAuthController : ControllerBase
     {
-        private readonly IRepositry _repo;
-        private readonly DataContext _context;
+        private readonly IRepositry<Employee> _repo;
+        
 
-        public EmployeeAuthController(IRepositry repo, DataContext context)
+        public EmployeeAuthController(IRepositry<Employee> repo)
         {
             _repo = repo;
-            _context = context;
         }
 
         //  GET: api/EmployeeAuth/
@@ -38,46 +37,51 @@ namespace VactionApi.Controllers
 
         // POST: api/EmployeeAuth
         [HttpPost("register")]
-        public async Task<IActionResult> Register(Employee Emp)
+        public async Task<IActionResult> Register(Employee emp)
         {
-            Emp.Username = Emp.Username.ToLower();
-            if (await _repo.UserExists(Emp.Username))
+            emp.Username = emp.Username.ToLower();
+            if (await _repo.EntityExists(emp))
             {
                 return BadRequest("Employee is already Exists");
             }
-            var EmpCreate = new Employee
+            var empCreate = new Employee
             {
-                Username = Emp.Username,
-                Password = Emp.Password,
+                Username = emp.Username,
+                Password = emp.Password,
                 MangerID = 1,
                 Vacations = 16,
-                Status = true   
+                Status = true
 
             };
-            var CreatedEmp = await _repo.Register(EmpCreate);
+            var createdEmp = await _repo.AddEntity(empCreate);
 
-            return Ok(CreatedEmp);
+            return Ok(createdEmp);
         }
         [HttpPost("employeeLogin")]
-        public async Task<IActionResult> LoginForEmployee(Employee Emp)
+        public async Task<IActionResult> LoginForEmployee(Employee emp)
         {
-            if(Emp==null)
+            if (emp == null)
                 return BadRequest("Employee is null");
 
-            var userFromRepo = await _repo.Login(Emp.Username.ToLower(), Emp.Password);
-
-
-            if (userFromRepo == null)
+            var employee = await _repo.FindEntity(emp);
+            if (employee == null)
             {
                 return Unauthorized();
             }
-            return Ok(userFromRepo);
+            if (await _repo.CheckEntity(employee, employee.ID))
+                return Ok(employee);
+            return BadRequest("The Password is incorrect");
+
+            
+
+
         }
+    
         [AllowAnonymous]
         [HttpGet("getEmployee")]
-        public IEnumerable GetEmployee()
+        public async Task< IEnumerable> GetEmployee()
         {
-            return _context.Employeess;
+            return await _repo.GetAllEntity();
         }
     }
 }

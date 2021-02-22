@@ -6,19 +6,16 @@ using vacation_System.Models;
 
 namespace VactionApi.Data
 {
-    public  interface IRepositry
+    public  interface IRepositry <TEntity>
     {
-        Task<Manger> RegisterForManger(Manger M );
-        Task<Manger> LoginForManger(string username,string password);
-        Task<Employee> Register(Employee E);
-        Task<Employee> Login(string username, string password);
-
-        Task<bool> UserExists(string username);
-        Task<bool> MangerExists(string username);
-       Task<Vacation> AddVaction(Vacation v);
-       
-        Task<bool> VacationExists(int id);
-        bool VacationValid(Employee Emp);
+        Task<TEntity> AddEntity(TEntity t );
+        Task<bool> EntityExists(TEntity t);
+        Task<bool> CheckEntity(TEntity t, int id);
+        Task<TEntity> FindEntity(TEntity t);
+        Task<bool> GetEntity(int id);
+        Task<IList<TEntity>> GetAllEntity();
+         Task  Update(TEntity T);
+         Task<int> DeleteProduct(int myID);
 
 
 

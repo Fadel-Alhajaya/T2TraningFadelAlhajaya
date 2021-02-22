@@ -16,10 +16,10 @@ namespace VactionApi.Controllers
     [EnableCors("CorePolicy")]
     public class MangerAuthController : ControllerBase
     {
-        private readonly IRepositry _repo;
+        private readonly IRepositry<Manger> _repo;
         private readonly DataContext _context;
 
-        public MangerAuthController(IRepositry repo, DataContext context)
+        public MangerAuthController(IRepositry<Manger> repo, DataContext context)
         {
             _repo = repo;
             _context = context;
@@ -29,17 +29,17 @@ namespace VactionApi.Controllers
         public async Task<IActionResult> RegisterManger(Manger M)
         {
             M.Username = M.Username.ToLower();
-            if (await _repo.MangerExists(M.Username))
+            if (await _repo.EntityExists(M))
             {
                 return BadRequest("Manger is already Exists");
             }
-            var ManCreate = new Manger
+            var manCreate = new Manger
             {
                 Username = M.Username,
                 Password = M.Password,
               
             };
-            var CreatedMan = await _repo.RegisterForManger(ManCreate);
+            var CreatedMan = await _repo.AddEntity(manCreate);
 
             return Ok(CreatedMan);
            
@@ -50,15 +50,16 @@ namespace VactionApi.Controllers
             if (m == null)
                 return BadRequest("Manger is null");
 
-            var Mangerr = await _repo.LoginForManger(m.Username,m.Password);
-
-
+            var Mangerr = await _repo.FindEntity(m);
             if (Mangerr == null)
             {
                 return Unauthorized();
             }
-            return Ok(Mangerr); 
-          
+            if ( await _repo.CheckEntity(Mangerr,Mangerr.Id)==false)
+                return BadRequest("The Password is incorrect");
+
+            return Ok(Mangerr);
+
 
         }
     }
