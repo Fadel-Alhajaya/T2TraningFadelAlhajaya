@@ -48,6 +48,8 @@ namespace VactionApi.Controllers
             {
                 Username = emp.Username,
                 Password = emp.Password,
+                BirthDate=emp.BirthDate,
+                JobNumber=emp.JobNumber,
                 MangerID = 1,
                 Vacations = 16,
                 Status = true
@@ -66,14 +68,10 @@ namespace VactionApi.Controllers
             var employee = await _repo.FindEntity(emp);
             if (employee == null)
             {
-                return Unauthorized();
+                return BadRequest("The login is incorrect");
             }
-            if (await _repo.CheckEntity(employee, employee.ID))
-                return Ok(employee);
-            return BadRequest("The Password is incorrect");
 
-            
-
+            return Ok(employee);
 
         }
     

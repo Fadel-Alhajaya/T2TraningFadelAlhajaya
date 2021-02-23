@@ -12,7 +12,7 @@
         <a class="nav-link" [routerLink]="['/requests']">Vactions Request</a>
       </li>
       <li class="nav-item" routerLinkActive="active">
-        <a class="nav-link  " [routerLink]="['/employee']">Add Employee</a>
+        <a class="nav-link  " [routerLink]="['/employee']">Employee</a>
 
         <li class="nav-item">
           <a class="nav-link " (click)="logout()">Log-out</a>
@@ -37,7 +37,7 @@
  
 </nav>
 
-<section class="container">
+<section class="container mt-3 bg-info">
   
   <div  *ngIf="!registerMode" class=" jumbotron text-center">
     <h1 class="jumbotron-heading"> Now you can Have A Vaction Day</h1>
@@ -45,8 +45,9 @@
   <p *ngIf="!loggedIn()" style="font-size: large"  class="text-muted">No account! Register</p>
     <p class="lead text-muted">Rejester to the System</p>
     <p>
-      <button *ngIf="!loggedIn()"  hr href="#" class="btn btn-primary my-2 mr-2" [routerLink]="['/register']"  routerLinkActive="active" (click)="rejesterToggel()">Register</button>
-      <a href="#" class="btn btn-secondary my-2 mr-2">Learn More</a>
+      <button *ngIf="!loggedIn()"  hr  class="btn btn-primary my-2 mr-2" [routerLink]="['/register']"  routerLinkActive="active" (click)="rejesterToggel()">Register</button>
+      <a routerLinkActive="active" [routerLink]="['/manage'] "class="btn btn-secondary my-2 mr-2">
+        Swith to Manger Page</a>
     </p>
 
   </div>

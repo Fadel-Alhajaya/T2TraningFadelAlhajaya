@@ -14,6 +14,8 @@ headers:new HttpHeaders({
 })
 export class VactionsService {
  url=environment.baseUrl;
+ 
+
   constructor(private http:HttpClient) { 
 
   }
@@ -24,6 +26,11 @@ export class VactionsService {
   getSingelVactions( id):Observable<Vaction[]>{
     return  this.http.get<Vaction[]>(this.url +"VacationsRequests/"+id ,httpOptions);
      }
-  
+   
+     addVactions(vaction:any)
+     {
+
+      return this.http.post(this.url+"VacationsRequests/add_vactions",vaction);
+     }
 
 }

@@ -24,16 +24,9 @@ namespace VactionApi.Data
             return e;
         }
 
-        public async Task<bool> CheckEntity(Employee e, int id)
-        {
-            var emp = await _context.Employeess.FirstOrDefaultAsync(x => x.ID == id);
-            if (e.Password!=emp.Password)
-                return false;
+      
 
-            return true;
-        }
-
-        public async Task<int> DeleteProduct(int myID)
+        public async Task<int> DeleteEntity(int myID)
         {
             int result = 0;
             var getemployee = await _context.Employeess.FirstOrDefaultAsync(x => x.ID == myID);
@@ -56,8 +49,17 @@ namespace VactionApi.Data
 
         public  async Task<Employee> FindEntity(Employee e)
         {
+            
             if (await EntityExists(e))
-                return e;
+            {
+
+                var employee = _context.Employeess.FirstOrDefault(x => x.Username == e.Username );
+                if (e.Password != employee.Password)
+                    return null;
+                else
+                    return employee;
+            }
+
             else
                 return null;
         }
@@ -67,14 +69,13 @@ namespace VactionApi.Data
             return await _context.Employeess.ToListAsync();
         }
 
-        public async Task<bool> GetEntity(int id)
+        public Employee GetEntity(int id)
         {
-            if (await _context.Employeess.AnyAsync(x => x.ID== id))
-            {
-                return true;
-            }
+                var employee = _context.Employeess.FirstOrDefault(x => x.ID == id);
+                return employee;
+            
 
-            return false;
+            
         }
 
         public async Task Update(Employee e)

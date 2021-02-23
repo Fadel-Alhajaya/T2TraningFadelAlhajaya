@@ -12,14 +12,13 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 export class NavComponent implements OnInit {
   model :any={};
   users:string;
-  Employees:any;
   registerMode=false;
   constructor( private http:HttpClient, private authService:AuthServiceService, private alertfy:AlertifyService) {
     
    }
 
   ngOnInit(): void {
-    this.getEmployee();
+    
   }
   login()
   {
@@ -47,12 +46,7 @@ return !!User;
     this.alertfy.message("logged out");
     
   }
-  getEmployee()
-  {
-this.http.get("https://localhost:5001/api/EmployeeAuth/getEmployee").subscribe(
-  response =>{this.Employees=response;},
-error=>{console.log(error);})
-}
+ 
 rejesterToggel()
 {
   this.registerMode=!this.registerMode;

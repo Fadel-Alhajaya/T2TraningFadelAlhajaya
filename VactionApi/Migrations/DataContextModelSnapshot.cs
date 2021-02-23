@@ -25,6 +25,10 @@ namespace VactionApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("BirthDate");
+
+                    b.Property<string>("JobNumber");
+
                     b.Property<int>("MangerID");
 
                     b.Property<string>("Password");
@@ -48,6 +52,10 @@ namespace VactionApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("BirthDate");
+
+                    b.Property<string>("JobNumber");
+
                     b.Property<string>("Password");
 
                     b.Property<string>("Username");
@@ -59,7 +67,7 @@ namespace VactionApi.Migrations
 
             modelBuilder.Entity("vacation_System.Models.Vacation", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -73,7 +81,7 @@ namespace VactionApi.Migrations
 
                     b.Property<DateTime>("VactionDate");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.HasIndex("EmployeesID");
 

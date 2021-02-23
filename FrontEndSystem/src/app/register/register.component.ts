@@ -18,6 +18,7 @@ model:any={};
   {
     return this.authService.register(this.model).subscribe(()=>{
       this.alertify.success("Registeration Successfuly");  
+      this.authService.loggedin=false;
     },error=>{
       this.alertify.error("Failed to Registeration");
     });

@@ -1,6 +1,6 @@
 <div class="container">
     <div class="row ">
-      <div class="col-lg-12 ">
+      <div class="col-md-12 ">
 <table class="table table-bordered  table-striped text-center table-hover mt-4">
     <thead class="bg-info">
       <tr>
@@ -22,5 +22,27 @@
       </tbody>
       </table>
       </div>
-      </div>
+      </div> 
+      <form #vectionForm="ngForm" (ngSubmit)="addvaction()">
+        <div class="form-group">
+          <label>Type of Vactions:</label>
+          <input type="text" name="vactionType"  class="form-control" [(ngModel)]="VactionAdd.type" >
+        </div>
+        <div class="form-group">
+          <label>Date of Vactions:</label>
+          <input type="text" name="vactionDate" class="form-control" [(ngModel)]="VactionAdd.vactionDate" >
+        </div>
+       
+       
+        <div class="form-group">
+          <label>description of Vactions:</label>
+          <input type="text" name="description"  class="form-control" [(ngModel)]="VactionAdd.description">
+        </div>
+        <div class="form-group">
+          <label>Employee Id :</label>
+          <input type="text" name="type"  class="form-control" [(ngModel)]="VactionAdd.empID">
+        </div>
+        <input type="submit" class="btn btn-dark btn-lg" value="Save Vactions" >
+
+      </form>
 </div>

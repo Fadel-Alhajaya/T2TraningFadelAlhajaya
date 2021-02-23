@@ -9,7 +9,7 @@ import { RegisterComponent } from './register/register.component';
 
 export const routes: Routes = [
     //{ path: '', component: NavComponent,pathMatch:"full"  },
-    { path: 'mange', component: MangeComponent ,pathMatch:"full" },
+    { path: 'manage', component: MangeComponent ,pathMatch:"full" },
     { path: 'requests', component: RequestsComponent,canActivate:[AuthGuard]},
     {path:'employee',component:EmployeesComponent ,canActivate:[AuthGuard]},
     {path:'register',component:RegisterComponent,pathMatch:"full" },

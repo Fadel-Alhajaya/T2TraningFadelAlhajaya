@@ -10,7 +10,7 @@ using vacation_System.Models;
 namespace VactionApi.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20210216232625_ExtendedData")]
+    [Migration("20210222132711_ExtendedData")]
     partial class ExtendedData
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -26,6 +26,10 @@ namespace VactionApi.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("BirthDate");
+
+                    b.Property<string>("JobNumber");
 
                     b.Property<int>("MangerID");
 
@@ -50,6 +54,10 @@ namespace VactionApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("BirthDate");
+
+                    b.Property<string>("JobNumber");
+
                     b.Property<string>("Password");
 
                     b.Property<string>("Username");
@@ -61,7 +69,7 @@ namespace VactionApi.Migrations
 
             modelBuilder.Entity("vacation_System.Models.Vacation", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -75,7 +83,7 @@ namespace VactionApi.Migrations
 
                     b.Property<DateTime>("VactionDate");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.HasIndex("EmployeesID");
 

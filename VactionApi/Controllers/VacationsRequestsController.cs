@@ -21,12 +21,13 @@ namespace VactionApi.Controllers
     {
 
         private readonly IRepositry<Vacation> _repo;
-        private readonly DataContext _context;
+        private DataContext _context;
 
         public VacationsRequestsController(IRepositry<Vacation> repo, DataContext context)
         {
             _repo = repo;
             _context = context;
+        
         }
 
         // GET: api/VacationsRequests/1
@@ -34,25 +35,27 @@ namespace VactionApi.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetsingelVactionss(int id)
         {
-            if (await _context.Vactionss.AnyAsync(x => x.Id == id))
+            if (await _context.Vactionss.AnyAsync(x => x.EmpID == id))
             {
-                var td = (from V in _context.Vactionss
-                          join Emp in _context.Employeess on id equals Emp.ID
+                var td = (from v in _context.Vactionss
+                          join emp in _context.Employeess on id equals emp.ID
                           where
-                          V.EmpID == Emp.ID
+                          v.EmpID == emp.ID
                           select new
                           {
-                              V.Id,
-                              V.VactionDate,
-                              V.Type,
-                              V.Description,
-                              V.EmpID
+                              v.Id,
+                              v.VactionDate,
+                              v.Type,
+                              v.Description,
+                              v.EmpID
                           }).ToList();
-                return Ok();
+                return Ok(td);
 
             }
+            else
+                return BadRequest("the Id number have not  any Vactions");
            
-            return Unauthorized();
+
         }
 
 
@@ -70,37 +73,39 @@ namespace VactionApi.Controllers
         public async Task<IActionResult> AddVactions(Vacation v)
         {
 
-            if (await _repo.CheckEntity(v,v.EmpID))
+            
+            if(v==null)
             {
-                    var createVaction = new Vacation
-                    {
-
-                        Type = v.Type,
-                        VactionDate = v.VactionDate,
-                        Description = v.Description,
-                        EmpID = v.EmpID,
-
-                    };
-
-                    var insertVaction = await _repo.AddEntity(createVaction);
-
-                    return Ok(new { insertVaction = "Vaction added!" });
-
+                BadRequest("Your Vaction is wrong");
             }
-            else
+            var newVaction = await _repo.FindEntity(v);
+            if (newVaction != null)
             {
-                return BadRequest("Vaction is not Vaild ");
+                var createVaction = new Vacation
+                {
+
+                    Type = newVaction.Type,
+                    VactionDate = newVaction.VactionDate,
+                    Description = newVaction.Description,
+                    EmpID = newVaction.EmpID,
+
+                };
+
+                var insertVaction = await _repo.AddEntity(createVaction);
+
+                return Ok(new { insertVaction = "Vaction are added!" });
             }
-           
+            return Unauthorized();
         }
+
         [HttpPost]
         [Route("update_Vactions/{id}")]
-        public async Task<IActionResult> UpdateVaction(Vacation v, int id)
+        public async Task<IActionResult> UpdateVaction(Vacation v)
         {
-
-            if (await _repo.CheckEntity(v, id))
-            {
-                var entity = _repo.FindEntity(v);
+            if( await _repo.EntityExists(v))
+            { 
+            
+                var entity =  await _repo.FindEntity(v);
 
                 if (entity != null)
                 {
@@ -116,6 +121,20 @@ namespace VactionApi.Controllers
             return Unauthorized();
 
         }
+        [HttpDelete]
+        [Route("delete_Vactions/{id}")]
+        public async Task<IActionResult> DeleteVaction(int id)
+        {
+            int flag = await _repo.DeleteEntity(id);
+            if (flag == 0)
+                return BadRequest("error in the Delete proccess");
+
+
+          return Ok("The Vaction successfully Deleted");
+
+
+        }
+
         }
     }
         

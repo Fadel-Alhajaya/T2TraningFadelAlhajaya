@@ -5,6 +5,9 @@ import { AlertifyService } from '../_Service/alertify.service';
 import { Vaction } from '../_models/vaction';
 import { error } from '@angular/compiler/src/util';
 import { AuthServiceService } from '../_Service/auth-service.service';
+import { NgIf } from '@angular/common';
+import { NgForm } from '@angular/forms';
+
 
 @Component({
   selector: 'app-requests',
@@ -13,17 +16,32 @@ import { AuthServiceService } from '../_Service/auth-service.service';
 })
 export class RequestsComponent implements OnInit {
 Vactions:Vaction[];
-  constructor(private http:HttpClient, private vactionsService:VactionsService , private alert:AlertifyService, private auth:AuthServiceService) { }
+VactionAdd: any = {};
+
+  constructor(private http:HttpClient, public vactionsService:VactionsService , private alert:AlertifyService, private auth:AuthServiceService) { }
 
   ngOnInit(): void {
     this.VactionsGet();
+   
   }
   
   VactionsGet()
   {
-this.vactionsService.getSingelVactions(+this.auth.id ).subscribe((Vactions:Vaction[])=> { this.Vactions=Vactions;
+this.vactionsService.getSingelVactions(+this.auth.id ).subscribe((Vactions:Vaction[])=> 
+{ this.Vactions=Vactions;
 },
- error=>{this.alert.error(error);});
+ error=>{this.alert.error("You don't have any Vaction !!");});
+  }
+  
+  addvaction()
+  {
+    return this.vactionsService.addVactions(this.VactionAdd).subscribe(() =>{
+      this.alert.success("Vaction added Successfuly");  
+      this.VactionsGet();
+    },error=>{
+      this.alert.error("Failed to Add Vaction");
+      this.VactionsGet();
+    });
   }
 
 

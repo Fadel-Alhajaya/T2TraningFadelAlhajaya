@@ -33,9 +33,30 @@ namespace VactionApi.Migrations
                 table: "Employeess",
                 newName: "ID");
 
+            migrationBuilder.AddColumn<DateTime>(
+                name: "BirthDate",
+                table: "Managerss",
+                nullable: false,
+                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
+
+            migrationBuilder.AddColumn<string>(
+                name: "JobNumber",
+                table: "Managerss",
+                nullable: true);
+
             migrationBuilder.AddColumn<string>(
                 name: "Password",
                 table: "Managerss",
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "BirthDate",
+                table: "Employeess",
+                nullable: true);
+
+            migrationBuilder.AddColumn<string>(
+                name: "JobNumber",
+                table: "Employeess",
                 nullable: true);
 
             migrationBuilder.AddColumn<int>(
@@ -48,7 +69,7 @@ namespace VactionApi.Migrations
                 name: "Vactionss",
                 columns: table => new
                 {
-                    id = table.Column<int>(nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Type = table.Column<string>(nullable: true),
                     VactionDate = table.Column<DateTime>(nullable: false),
@@ -58,7 +79,7 @@ namespace VactionApi.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Vactionss", x => x.id);
+                    table.PrimaryKey("PK_Vactionss", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Vactionss_Employeess_EmployeesID",
                         column: x => x.EmployeesID,
@@ -100,8 +121,24 @@ namespace VactionApi.Migrations
                 table: "Employeess");
 
             migrationBuilder.DropColumn(
+                name: "BirthDate",
+                table: "Managerss");
+
+            migrationBuilder.DropColumn(
+                name: "JobNumber",
+                table: "Managerss");
+
+            migrationBuilder.DropColumn(
                 name: "Password",
                 table: "Managerss");
+
+            migrationBuilder.DropColumn(
+                name: "BirthDate",
+                table: "Employeess");
+
+            migrationBuilder.DropColumn(
+                name: "JobNumber",
+                table: "Employeess");
 
             migrationBuilder.DropColumn(
                 name: "MangerID",

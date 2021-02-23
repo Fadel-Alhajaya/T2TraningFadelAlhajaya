@@ -37,11 +37,13 @@ namespace VactionApi.Controllers
             {
                 Username = M.Username,
                 Password = M.Password,
+                BirthDate=M.BirthDate,
+                JobNumber=M.JobNumber
               
             };
-            var CreatedMan = await _repo.AddEntity(manCreate);
+            var createdMan = await _repo.AddEntity(manCreate);
 
-            return Ok(CreatedMan);
+            return Ok(createdMan);
            
         }
         [HttpPost("MangerLogin")]
@@ -53,11 +55,8 @@ namespace VactionApi.Controllers
             var Mangerr = await _repo.FindEntity(m);
             if (Mangerr == null)
             {
-                return Unauthorized();
-            }
-            if ( await _repo.CheckEntity(Mangerr,Mangerr.Id)==false)
-                return BadRequest("The Password is incorrect");
-
+                return BadRequest("The login is incorrect");
+            }    
             return Ok(Mangerr);
 
 

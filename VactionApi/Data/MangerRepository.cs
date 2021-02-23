@@ -8,11 +8,11 @@ using vacation_System.Models;
 
 namespace VactionApi.Data
 {
-    public class DataRepository : IRepositry<Manger>
+    public class MangerRepository : IRepositry<Manger>
     {
         private readonly DataContext _context;
 
-        public DataRepository(DataContext context)
+        public MangerRepository(DataContext context)
         {
             _context = context;
         }
@@ -40,22 +40,20 @@ namespace VactionApi.Data
         public async Task<Manger> FindEntity(Manger t)
         {
             if (await EntityExists(t))
-                return t;
+            {
+                var manger = _context.Managerss.FirstOrDefault(x => x.Username == t.Username );
+                if (t.Password != manger.Password)
+                    return null;
+                else
+                return manger;
+            }
+
             else
                 return null;
-        }
-
-        public async Task<bool> CheckEntity(Manger t,int id)
-        {
-            var manger = await _context.Managerss.FirstOrDefaultAsync(x => x.Id == id);
-            if (manger.Password==t.Password)
-
-                  return true;
-
-            return false;
-            
 
         }
+
+       
 
         public async Task<bool> GetEntity(int id)
         {
@@ -78,7 +76,7 @@ namespace VactionApi.Data
             await _context.SaveChangesAsync();
         }
 
-        public async  Task<int> DeleteProduct(int myID)
+        public async  Task<int> DeleteEntity(int myID)
         {
             int result = 0;
             var getmanger = await _context.Managerss.FirstOrDefaultAsync(x => x.Id == myID);
@@ -88,6 +86,12 @@ namespace VactionApi.Data
                 result = await _context.SaveChangesAsync();
             }
             return result;
+        }
+
+        Manger IRepositry<Manger>.GetEntity(int id)
+        {
+            var manger = _context.Managerss.FirstOrDefault(x => x.Id == id);
+            return manger;
         }
     }
 }

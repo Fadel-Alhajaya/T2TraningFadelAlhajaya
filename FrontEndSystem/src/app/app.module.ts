@@ -6,7 +6,6 @@ import { RouterModule } from '@angular/router';
 
 
 import { AppComponent } from './app.component';
-import { LoginComponent } from './login/login.component';
 import { NavComponent } from './nav/nav.component';
 
 import { RegisterComponent } from './register/register.component';
@@ -23,7 +22,6 @@ import { VactionsService } from './_Service/vactions.service';
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
     NavComponent,
     RegisterComponent,
     RequestsComponent,

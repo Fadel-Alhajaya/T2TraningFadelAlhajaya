@@ -10,12 +10,12 @@ namespace VactionApi.Data
     {
         Task<TEntity> AddEntity(TEntity t );
         Task<bool> EntityExists(TEntity t);
-        Task<bool> CheckEntity(TEntity t, int id);
+    //    Task<bool> CheckEntity(TEntity t, int id);
         Task<TEntity> FindEntity(TEntity t);
-        Task<bool> GetEntity(int id);
+        TEntity GetEntity(int id);
         Task<IList<TEntity>> GetAllEntity();
          Task  Update(TEntity T);
-         Task<int> DeleteProduct(int myID);
+         Task<int> DeleteEntity(int myID);
 
 
 
