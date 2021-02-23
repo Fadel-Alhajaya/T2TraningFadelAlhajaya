@@ -30,7 +30,7 @@ export class VactionsService {
      addVactions(vaction:any)
      {
 
-      return this.http.post(this.url+"VacationsRequests/add_vactions",vaction);
+      return this.http.post(this.url+"VacationsRequests/"+"add_vactions",vaction);
      }
 
 }

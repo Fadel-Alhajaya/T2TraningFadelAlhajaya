@@ -16,7 +16,7 @@ import { NgForm } from '@angular/forms';
 })
 export class RequestsComponent implements OnInit {
 Vactions:Vaction[];
-VactionAdd: any = {};
+VactionAdd: any ={};
 
   constructor(private http:HttpClient, public vactionsService:VactionsService , private alert:AlertifyService, private auth:AuthServiceService) { }
 
@@ -36,10 +36,13 @@ this.vactionsService.getSingelVactions(+this.auth.id ).subscribe((Vactions:Vacti
   addvaction()
   {
     return this.vactionsService.addVactions(this.VactionAdd).subscribe(() =>{
+
       this.alert.success("Vaction added Successfuly");  
       this.VactionsGet();
     },error=>{
       this.alert.error("Failed to Add Vaction");
+      console.log(this.VactionAdd);
+      
       this.VactionsGet();
     });
   }

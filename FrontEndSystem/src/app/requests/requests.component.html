@@ -25,12 +25,16 @@
       </div> 
       <form #vectionForm="ngForm" (ngSubmit)="addvaction()">
         <div class="form-group">
+          
+        
+
           <label>Type of Vactions:</label>
           <input type="text" name="vactionType"  class="form-control" [(ngModel)]="VactionAdd.type" >
         </div>
+
         <div class="form-group">
           <label>Date of Vactions:</label>
-          <input type="text" name="vactionDate" class="form-control" [(ngModel)]="VactionAdd.vactionDate" >
+          <input type="date" name="vactionDate" class="form-control" [(ngModel)]="VactionAdd.vactionDate" >
         </div>
        
        
@@ -42,7 +46,10 @@
           <label>Employee Id :</label>
           <input type="text" name="type"  class="form-control" [(ngModel)]="VactionAdd.empID">
         </div>
-        <input type="submit" class="btn btn-dark btn-lg" value="Save Vactions" >
+        <div>
+          <input type="submit" class="btn btn-dark btn-lg" value="Save Vactions" >
+        </div>
+        
 
       </form>
 </div>
