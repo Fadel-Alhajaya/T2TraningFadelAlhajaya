@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-info">
     <a class="navbar-brand" [routerLink]="['/manage']">Vactions System</a>
     
   
@@ -8,7 +8,7 @@
           <a class="nav-link" [routerLink]="['/manage']">Home </a>
         </li>
         <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" [routerLink]="['/manage-vactions']">Management Vactions</a>
+          <a class="nav-link" [routerLink]="['/manage-vactions']"> Management Vactions</a>
         </li>
         <li class="nav-item" routerLinkActive="active">
           <a class="nav-link  " [routerLink]="['/employee']">Employee</a>
@@ -35,33 +35,35 @@
       </form>
    
   </nav>
-
   <div class="container">
-    <div class="row ">
-      <div class="col-md-12 ">
+    <div class="card-body">
+  <div id="table" class="table-editable">
 <table class="table table-bordered  table-striped text-center table-hover mt-4">
     <thead class="bg-info">
       <tr>
         <th scope="col">ID</th>
-        <th scope="col">Username</th>
-        <th scope="col">Vactions Count</th>
-        <th scope="col">  Status</th>
-        <th scope="col">Birth Date</th>
-        <th scope="col">Job number </th>
-        <th scope="col">Manger ID</th>
+        <th scope="col">Type</th>
+        <th scope="col">Vaction Date</th>
+        <th scope="col">Description</th>
+        <th scope="col">Employee Id</th>
+        <th scope="col"> Accept Vaction </th>
+        <th scope="col">Reject Vaction</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let item of Employees">
+      <tr *ngFor="let item of Vactions">
         <td>{{item.id}}</td>
-        <td>{{item.username}}</td>
-        <td>{{item.vacations}}</td>
-        <td>{{item.status}}</td>
-        <td>{{item.birthDate}}</td>
-        <td>{{item.jobNumber}}</td>
-        <td>{{item.mangerID}}</td>
+        <td>{{item.type}}</td>
+        <td>{{item.vactionDate}}</td>
+        <td>{{item.description}}</td>
+        <td>{{item.empID}}</td>
+        <td><button class="btn btn-success" [disabled]  >Accept</button>
+            <td><button class="btn btn-danger" [disabled]>Reject</button>
       </tr>
       </tbody>
       </table>
       </div>
       </div> 
+  </div>
+
+

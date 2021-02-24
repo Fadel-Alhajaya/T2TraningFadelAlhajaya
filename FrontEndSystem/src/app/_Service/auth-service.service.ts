@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthServiceService {
-  baseUrl="https://localhost:5001/api/EmployeeAuth/";
+  baseUrl=environment.baseUrl; 
   name:any;
   loggedin:boolean=false;
   id:any;
@@ -17,7 +18,7 @@ export class AuthServiceService {
   }
   login(model:any)
   {
-return this.http.post(this.baseUrl+"employeeLogin" ,model).pipe(
+return this.http.post(this.baseUrl+"EmployeeAuth/employeeLogin" ,model).pipe(
   map((response:any)=>
   {
     const user=response;
@@ -32,7 +33,29 @@ return this.http.post(this.baseUrl+"employeeLogin" ,model).pipe(
   }
   register(model:any)
   {
-return this.http.post(this.baseUrl+"register",model);
+return this.http.post(this.baseUrl+"EmployeeAuth/register",model);
+this.loggedin=true;
+
+  }
+  Mangerlogin(model:any)
+  {
+return this.http.post(this.baseUrl+"MangerAuth/MangerLogin" ,model).pipe(
+  map((response:any)=>
+  {
+    const user=response;
+    if(user)
+    {localStorage.setItem("user",user.id);
+    this.name=user.username;
+   this.id=user.id;
+    this.loggedin=true;
+  }
+  }
+  ) );
+
+  }
+  MangerRegister(model:any)
+  {
+return this.http.post(this.baseUrl+"MangerAuth/MangerRegister",model);
 this.loggedin=true;
 
   }

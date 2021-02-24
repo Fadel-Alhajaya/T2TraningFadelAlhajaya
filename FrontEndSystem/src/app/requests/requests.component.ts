@@ -15,8 +15,12 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./requests.component.css']
 })
 export class RequestsComponent implements OnInit {
+  
 Vactions:Vaction[];
-VactionAdd: any ={};
+VactionAdd: any ={ empID :localStorage.getItem("user")};
+  users: string;
+  model: any={};
+ 
 
   constructor(private http:HttpClient, public vactionsService:VactionsService , private alert:AlertifyService, private auth:AuthServiceService) { }
 
@@ -24,12 +28,46 @@ VactionAdd: any ={};
     this.VactionsGet();
    
   }
+  login()
+  {
+  this.auth.login(this.model).subscribe(next=>{
+ this.alert.success("logged in Successfuly");
+ this.users=this.auth.name;
+ 
+  },error=>
+  {
+  this.alert.error("failed to login");
+  
+  })
+  
+    
+  }
+  
+  loggedIn()
+  {
+const User=localStorage.getItem("user");
+return !!User;
+
+  }
+  logout()
+  {
+    localStorage.removeItem("user");
+    this.alert.message("logged out");
+    
+  }
+ 
+
+Switch(){
+
+  localStorage.removeItem("user");
+
+
+}
   
   VactionsGet()
   {
 this.vactionsService.getSingelVactions(+this.auth.id ).subscribe((Vactions:Vaction[])=> 
-{ this.Vactions=Vactions;
-},
+{ this.Vactions=Vactions;},
  error=>{this.alert.error("You don't have any Vaction !!");});
   }
   

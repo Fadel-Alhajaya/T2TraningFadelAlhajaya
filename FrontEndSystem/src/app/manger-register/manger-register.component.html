@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-info">
     <a class="navbar-brand" [routerLink]="['/manage']">Vactions System</a>
     
   
@@ -8,7 +8,7 @@
           <a class="nav-link" [routerLink]="['/manage']">Home </a>
         </li>
         <li class="nav-item" routerLinkActive="active">
-          <a class="nav-link" [routerLink]="['/manage-vactions']">Management Vactions</a>
+          <a class="nav-link" [routerLink]="['/']"> Employee Vactions</a>
         </li>
         <li class="nav-item" routerLinkActive="active">
           <a class="nav-link  " [routerLink]="['/employee']">Employee</a>
@@ -19,7 +19,7 @@
       </ul>
       <div *ngIf="loggedIn()" class="dropdown">
         <a class="dropdown-toggle text-light">
-          Welcom {{users}}
+          Welcom {{manger}}
         </a>
         <div class="dropdown-menu" >
           <a class="dropdown-item" href="#"><i class="fa fa-user"></i>Edit profile</a>
@@ -35,33 +35,29 @@
       </form>
    
   </nav>
+<div class="container text-center mt-3 " style="max-width: 500px; ">
+    <div class="jumbotron"> 
+<form #registerForm="ngForm" (ngSubmit)="register()"> 
+    <h2 class="text-center text-primary"> Sign Up</h2>
+    <hr>
+    <div class="form-group input-group-prepend">
+        <input type="text" class="form-control" required name="username" [(ngModel)]="model.username" placeholder="Enter Username">
+    </div>
+    
+    <div class="form-group">
+        <input type="password" class="form-control" required name="username" [(ngModel)]="model.password"placeholder="Enter Password">
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control" required name="jobnumber" [(ngModel)]="model.jobnumber"placeholder="Enter job Number">
+    </div>
+   <div class="form-group">
+        <input type="date" class="form-control" required name="birthdate" [(ngModel)]="model.birthdate"placeholder="Enter birth date">
+    </div>
+    <div class="form-group text-center">
+        <button class="btn btn-success" type="submit"> Register</button>
+        <button class="btn btn-default" type="button" (click)="cancel()"> Cancel</button>
+    </div>
+</form>
+</div>
+</div>
 
-  <div class="container">
-    <div class="row ">
-      <div class="col-md-12 ">
-<table class="table table-bordered  table-striped text-center table-hover mt-4">
-    <thead class="bg-info">
-      <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Username</th>
-        <th scope="col">Vactions Count</th>
-        <th scope="col">  Status</th>
-        <th scope="col">Birth Date</th>
-        <th scope="col">Job number </th>
-        <th scope="col">Manger ID</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let item of Employees">
-        <td>{{item.id}}</td>
-        <td>{{item.username}}</td>
-        <td>{{item.vacations}}</td>
-        <td>{{item.status}}</td>
-        <td>{{item.birthDate}}</td>
-        <td>{{item.jobNumber}}</td>
-        <td>{{item.mangerID}}</td>
-      </tr>
-      </tbody>
-      </table>
-      </div>
-      </div> 

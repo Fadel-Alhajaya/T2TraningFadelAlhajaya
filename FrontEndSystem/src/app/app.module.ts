@@ -17,6 +17,8 @@ import { routes } from './routes';
 import { AuthGuard } from './_guards/auth.guard';
 import { MangeComponent } from './mange/mange.component';
 import { VactionsService } from './_Service/vactions.service';
+import { MangerRegisterComponent } from './manger-register/manger-register.component';
+import { ManagementVactionsComponent } from './management-vactions/management-vactions.component';
 
 
 @NgModule({
@@ -26,7 +28,9 @@ import { VactionsService } from './_Service/vactions.service';
     RegisterComponent,
     RequestsComponent,
     EmployeesComponent,
-    MangeComponent
+    MangeComponent,
+    MangerRegisterComponent,
+    ManagementVactionsComponent
   ],
   imports: [
     BrowserModule,
