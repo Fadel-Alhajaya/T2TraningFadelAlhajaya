@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using vacation_System.Models;
 using VactionApi.Data;
+using VactionApi.Dtos;
 
 namespace VactionApi.Controllers
 {
@@ -70,15 +71,12 @@ namespace VactionApi.Controllers
         }
         [HttpPost]
         [Route("add_vactions")]
-        public async Task<IActionResult> AddVactions(Vacation v)
+        public async Task<IActionResult> AddVactions( [FromBody]VactionDto v)
         {
+            //temp object of vaction beacuse findEntity take Vaction object 
+            var Vac = new Vacation { EmpID = v.EmpID };
 
-            
-            if(v==null)
-            {
-                BadRequest("Your Vaction is wrong");
-            }
-            var newVaction = await _repo.FindEntity(v);
+            var newVaction = await _repo.FindEntity(Vac);
             if (newVaction != null)
             {
                 var createVaction = new Vacation
@@ -100,21 +98,23 @@ namespace VactionApi.Controllers
 
         [HttpPost]
         [Route("update_Vactions/{id}")]
-        public async Task<IActionResult> UpdateVaction(Vacation v)
+        public async Task<IActionResult> UpdateVaction(VactionDto v)
         {
-            if( await _repo.EntityExists(v))
+            //temp object of vaction beacuse findEntity take Vaction object 
+            var newVaction = new Vacation { Id = v.Id, EmpID = v.EmpID ,Description=v.Description,Type=v.Type,VactionDate=v.VactionDate};
+            if ( await _repo.EntityExists(newVaction))
             { 
             
-                var entity =  await _repo.FindEntity(v);
+                var entity =  await _repo.FindEntity(newVaction);
 
                 if (entity != null)
                 {
-                    await _repo.Update(v);
+                    await _repo.Update(newVaction);
                     return Ok("Your Vaction have updated");
                 }
                 else
                 {
-                    return BadRequest("Error in Process");
+                    return BadRequest("Error in Process of Update");
                 }
 
             }

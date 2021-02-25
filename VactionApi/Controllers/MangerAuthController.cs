@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using vacation_System.Models;
 using VactionApi.Data;
+using VactionApi.Dtos;
 
 namespace VactionApi.Controllers
 {
@@ -26,38 +27,38 @@ namespace VactionApi.Controllers
         }
         // Post: api/MangerAuth
         [HttpPost("MangerRegister")]
-        public async Task<IActionResult> RegisterManger(Manger M)
+        public async Task<IActionResult> RegisterManger(MangerForRegisterDto manger)
         {
-            M.Username = M.Username.ToLower();
-            if (await _repo.EntityExists(M))
+            manger.Username = manger.Username.ToLower();
+            //casting object because entityExist take manger object 
+            var m = new Manger { Username = manger.Username };
+            if (await _repo.EntityExists(m))
             {
                 return BadRequest("Manger is already Exists");
             }
             var manCreate = new Manger
             {
-                Username = M.Username,
-                Password = M.Password,
-                BirthDate=M.BirthDate,
-                JobNumber=M.JobNumber
+                Username = manger.Username,
+                Password = manger.Password,
+                BirthDate= manger.BirthDate,
+                JobNumber= manger.JobNumber
               
             };
-            var createdMan = await _repo.AddEntity(manCreate);
+            var createdManger = await _repo.AddEntity(manCreate);
 
-            return Ok(createdMan);
+            return Ok(createdManger);
            
         }
         [HttpPost("MangerLogin")]
-        public async Task<IActionResult> LoginForManger(Manger m)
+        public async Task<IActionResult> LoginForManger(MangerForLoginDto manger)
         {
-            if (m == null)
-                return BadRequest("Manger is null");
-
-            var Mangerr = await _repo.FindEntity(m);
-            if (Mangerr == null)
+            var m = new Manger { Username = manger.Username,Password=manger.Password };
+            var logMangerr = await _repo.FindEntity(m);
+            if (logMangerr == null)
             {
-                return BadRequest("The login is incorrect");
+                return BadRequest("The login is incorrect Your username or password is wrong ");
             }    
-            return Ok(Mangerr);
+            return Ok(logMangerr);
 
 
         }

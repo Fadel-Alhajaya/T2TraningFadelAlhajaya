@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using vacation_System.Models;
 
 using VactionApi.Data;
+using VactionApi.Dtos;
 
 namespace VactionApi.Controllers
 {
@@ -37,10 +38,12 @@ namespace VactionApi.Controllers
 
         // POST: api/EmployeeAuth
         [HttpPost("register")]
-        public async Task<IActionResult> Register(Employee emp)
+        public async Task<IActionResult> Register(  EmpForRegisterDto emp)
         {
             emp.Username = emp.Username.ToLower();
-            if (await _repo.EntityExists(emp))
+            //temp object beacuse entityExist take employee object not dto
+            var e = new Employee { Username = emp.Username };
+            if (await _repo.EntityExists(e))
             {
                 return BadRequest("Employee is already Exists");
             }
@@ -57,18 +60,18 @@ namespace VactionApi.Controllers
             };
             var createdEmp = await _repo.AddEntity(empCreate);
 
-            return Ok(createdEmp);
+            return StatusCode(201);
         }
         [HttpPost("employeeLogin")]
-        public async Task<IActionResult> LoginForEmployee(Employee emp)
+        public async Task<IActionResult> LoginForEmployee(EmpForLoginDto emp)
         {
-            if (emp == null)
-                return BadRequest("Employee is null");
-
-            var employee = await _repo.FindEntity(emp);
+           
+            //temp object beacuse entityExist take employee object not dto
+            var empTemp = new Employee { Username = emp.Username, Password = emp.Password };
+            var employee = await _repo.FindEntity(empTemp);
             if (employee == null)
             {
-                return BadRequest("The login is incorrect");
+                return BadRequest("The login is incorrect your password or username wrong");
             }
 
             return Ok(employee);
