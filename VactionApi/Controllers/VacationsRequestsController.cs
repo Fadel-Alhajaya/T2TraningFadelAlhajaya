@@ -82,10 +82,10 @@ namespace VactionApi.Controllers
                 var createVaction = new Vacation
                 {
 
-                    Type = newVaction.Type,
-                    VactionDate = newVaction.VactionDate,
-                    Description = newVaction.Description,
-                    EmpID = newVaction.EmpID,
+                    Type = v.Type,
+                    VactionDate = v.VactionDate,
+                    Description = v.Description,
+                    EmpID = v.EmpID,
 
                 };
 
