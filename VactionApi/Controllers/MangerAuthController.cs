@@ -1,14 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
+using Microsoft.Extensions.Configuration;
+
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using vacation_System.Models;
 using VactionApi.Data;
 using VactionApi.Dtos;
+using System.Text;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace VactionApi.Controllers
 {
@@ -19,11 +25,13 @@ namespace VactionApi.Controllers
     {
         private readonly IRepositry<Manger> _repo;
         private readonly DataContext _context;
+        private readonly IConfiguration _config;
 
-        public MangerAuthController(IRepositry<Manger> repo, DataContext context)
+        public MangerAuthController(IRepositry<Manger> repo, DataContext context, IConfiguration config)
         {
             _repo = repo;
             _context = context;
+            _config = config;
         }
         // Post: api/MangerAuth
         [HttpPost("MangerRegister")]
@@ -46,8 +54,32 @@ namespace VactionApi.Controllers
             };
             var createdManger = await _repo.AddEntity(manCreate);
 
-            return Ok(createdManger);
-           
+            var clamis = new[]
+             {
+                new Claim (ClaimTypes.NameIdentifier,createdManger.Id.ToString()),
+                new Claim (ClaimTypes.Name,createdManger.Username)
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
+
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(clamis),
+                Expires = DateTime.Now.AddDays(1),
+                SigningCredentials = creds
+            };
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            return Ok(new
+            {
+                token = tokenHandler.WriteToken(token),
+                uInfo = createdManger
+            });
+
         }
         [HttpPost("MangerLogin")]
         public async Task<IActionResult> LoginForManger(MangerForLoginDto manger)
@@ -56,9 +88,32 @@ namespace VactionApi.Controllers
             var logMangerr = await _repo.FindEntity(m);
             if (logMangerr == null)
             {
-                return BadRequest("The login is incorrect Your username or password is wrong ");
-            }    
-            return Ok(logMangerr);
+                return Unauthorized();
+            }
+            var clamis = new[]
+           {
+                new Claim (ClaimTypes.NameIdentifier,logMangerr.Id.ToString()),
+                new Claim (ClaimTypes.Name,logMangerr.Username)
+            };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
+
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(clamis),
+                Expires = DateTime.Now.AddDays(1),
+                SigningCredentials = creds
+            };
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            return Ok(new
+            {
+                token = tokenHandler.WriteToken(token),
+            });
 
 
         }

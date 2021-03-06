@@ -8,7 +8,6 @@ namespace VactionApi.Dtos
 {
     public class EmpForLoginDto
     {
-        public int ID { get; set; }
         [Required(ErrorMessage = "Username can't be Empty")]
         public string Username { get; set; }
         [Required]

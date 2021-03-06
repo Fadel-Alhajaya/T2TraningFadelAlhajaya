@@ -40,13 +40,13 @@ export class EmployeesComponent implements OnInit {
   
   loggedIn()
   {
-const User=localStorage.getItem("user");
+const User=localStorage.getItem("token");
 return !!User;
 
   }
   logout()
   {
-    localStorage.removeItem("user");
+    localStorage.removeItem("token");
     this.alert.message("logged out");
     
   }

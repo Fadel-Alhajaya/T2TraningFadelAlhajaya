@@ -1,8 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { JwtModule } from "@auth0/angular-jwt";
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { HttpClientModule} from '@angular/common/http';
 import { FormsModule} from '@angular/forms';
 import { RouterModule } from '@angular/router';
+
+
 
 
 import { AppComponent } from './app.component';
@@ -20,6 +24,9 @@ import { VactionsService } from './_Service/vactions.service';
 import { MangerRegisterComponent } from './manger-register/manger-register.component';
 import { ManagementVactionsComponent } from './management-vactions/management-vactions.component';
 
+export function tokenGetter() {
+  return localStorage.getItem('token');
+}
 
 @NgModule({
   declarations: [
@@ -36,7 +43,16 @@ import { ManagementVactionsComponent } from './management-vactions/management-va
     BrowserModule,
     HttpClientModule,
     FormsModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    JwtModule.forRoot({
+      config: {
+   
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ["localhost:5000"],
+        blacklistedRoutes: ['http://localhost:5000/api']
+      }
+    }),  
+   
   ],
   providers: [
     AuthServiceService,

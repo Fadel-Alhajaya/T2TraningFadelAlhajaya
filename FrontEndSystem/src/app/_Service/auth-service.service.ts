@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,9 @@ export class AuthServiceService {
   name:any;
   loggedin:boolean=false;
   id:any;
+  jwtHelper = new JwtHelperService();
+  decodedToken: any;
+  mangerToken:any
 
   constructor( private http:HttpClient) {
     
@@ -23,13 +27,21 @@ return this.http.post(this.baseUrl+"EmployeeAuth/employeeLogin" ,model).pipe(
   {
     const user=response;
     if(user)
-    {localStorage.setItem("user",user.id);
+    {localStorage.setItem("token",user.token);
+    this.decodedToken = this.jwtHelper.decodeToken(user.token);
+    console.log(this.decodedToken);
     this.name=user.username;
    this.id=user.id;
     this.loggedin=true;
   }
   }
   ) );
+  }
+  /////////if he logged in
+  loggedIn()
+  {
+  const token=localStorage.getItem("token");
+    return ! this.jwtHelper.isTokenExpired(token);
   }
   register(model:any)
   {
@@ -44,7 +56,9 @@ return this.http.post(this.baseUrl+"MangerAuth/MangerLogin" ,model).pipe(
   {
     const user=response;
     if(user)
-    {localStorage.setItem("user",user.id);
+    {localStorage.setItem("token",user.token);
+    this.mangerToken = this.jwtHelper.decodeToken(user.token);
+    console.log(this.mangerToken);
     this.name=user.username;
    this.id=user.id;
     this.loggedin=true;

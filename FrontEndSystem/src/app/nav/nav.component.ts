@@ -13,7 +13,7 @@ export class NavComponent implements OnInit {
   model :any={};
   users:string;
   registerMode=false;
-  constructor( private http:HttpClient, private authService:AuthServiceService, private alertfy:AlertifyService) {
+  constructor( private http:HttpClient, public authService:AuthServiceService, private alertfy:AlertifyService) {
     
    }
 
@@ -36,13 +36,12 @@ export class NavComponent implements OnInit {
   }
   loggedIn()
   {
-const User=localStorage.getItem("user");
-return !!User;
+return this.authService.loggedIn();
 
   }
   logout()
   {
-    localStorage.removeItem("user");
+    localStorage.removeItem("token");
     this.alertfy.message("logged out");
     
   }
@@ -53,7 +52,7 @@ rejesterToggel()
 }
 Switch(){
 
-  localStorage.removeItem("user");
+  localStorage.removeItem("token");
 
 
 }

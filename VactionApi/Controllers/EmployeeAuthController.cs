@@ -22,9 +22,12 @@ using VactionApi.Dtos;
 
 namespace VactionApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     [EnableCors("CorePolicy")]
+  
+
     public class EmployeeAuthController : ControllerBase
     {
         private readonly IRepositry<Employee> _repo;
@@ -37,6 +40,7 @@ namespace VactionApi.Controllers
         }
 
         //  GET: api/EmployeeAuth/
+        [AllowAnonymous]
         [HttpGet("get")]
         public string Get()
         {
@@ -44,6 +48,7 @@ namespace VactionApi.Controllers
         }
 
         // POST: api/EmployeeAuth
+        [AllowAnonymous]
         [HttpPost("register")]
         public async Task<IActionResult> Register(  EmpForRegisterDto emp)
         {
@@ -66,10 +71,37 @@ namespace VactionApi.Controllers
 
             };
             var createdEmp = await _repo.AddEntity(empCreate);
+            var getUser = _repo.FindEntity(createdEmp);
+            var clamis = new[]
+            {
+                new Claim (ClaimTypes.NameIdentifier,createdEmp.ID.ToString()),
+                new Claim (ClaimTypes.Name,emp.Username)
+            };
 
-            return StatusCode(201);
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value));
+
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(clamis),
+                Expires = DateTime.Now.AddDays(1),
+                SigningCredentials = creds
+            };
+            var tokenHandler = new JwtSecurityTokenHandler();
+
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+
+            return Ok(new
+            {
+                token = tokenHandler.WriteToken(token),
+                uInfo = getUser
+            });
+
+
+
         }
-
+        [AllowAnonymous]
         [HttpPost("employeeLogin")]
         public async Task<IActionResult> LoginForEmployee(EmpForLoginDto emp)
         {
@@ -84,7 +116,7 @@ namespace VactionApi.Controllers
 
             var clamis = new[]
             {
-                new Claim (ClaimTypes.NameIdentifier,emp.ID.ToString()),
+                new Claim (ClaimTypes.NameIdentifier,employee.ID.ToString()),
                 new Claim (ClaimTypes.Name,emp.Username)
             };
 
@@ -109,13 +141,14 @@ namespace VactionApi.Controllers
 
         }
     
-        [AllowAnonymous]
+        
         [HttpGet("getEmployee")]
         public async Task< IEnumerable> GetEmployee()
         {
             return await _repo.GetAllEntity();
         }
-        //[AllowAnonymous]
+
+        
         //[HttpPut]
         //[Route("update_employee/{id}")]
         //public async Task<IActionResult> UpdateEmployee( EmployeeForUpdateDto emp)

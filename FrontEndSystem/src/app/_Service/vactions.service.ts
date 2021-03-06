@@ -3,10 +3,11 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { Vaction } from '../_models/vaction';
 import { Observable } from 'rxjs';
+import { AuthServiceService } from './auth-service.service';
 
 const httpOptions = {
 headers:new HttpHeaders({
-  'Authorization':'Bearer '+localStorage.getItem('user')
+  'Authorization':'Bearer '+localStorage.getItem('token')
 })
 };
 @Injectable({
@@ -14,9 +15,10 @@ headers:new HttpHeaders({
 })
 export class VactionsService {
  url=environment.baseUrl;
+ Empid:any;
  
 
-  constructor(private http:HttpClient) { 
+  constructor(private http:HttpClient, private auth :AuthServiceService) { 
 
   }
 
@@ -24,6 +26,7 @@ export class VactionsService {
  return  this.http.get<Vaction[]>(this.url +"VacationsRequests/allvaction",httpOptions);
   }
   getSingelVactions( id):Observable<Vaction[]>{
+    this.Empid=this.auth.decodedToken?.nameid;
     return  this.http.get<Vaction[]>(this.url +"VacationsRequests/"+id ,httpOptions);
      }
    

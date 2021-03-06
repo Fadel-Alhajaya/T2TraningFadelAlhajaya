@@ -13,7 +13,7 @@ export class MangeComponent implements OnInit {
   registerMode=false;
   users: string;
 
-  constructor( private http:HttpClient,private auth:AuthServiceService, private alert:AlertifyService) { }
+  constructor( private http:HttpClient,public auth:AuthServiceService, private alert:AlertifyService) { }
 
   ngOnInit(): void {
   }
@@ -21,12 +21,12 @@ export class MangeComponent implements OnInit {
   {
   this.auth.Mangerlogin(this.model).subscribe(next=>{
  this.alert.success("logged in Successfuly");
- this.users=this.auth.name;
+ this.users=this.auth.decodedToken;
  
   },error=>
   {
   this.alert.error("failed to login");
-  console.log(localStorage.getItem("user"));
+  console.log(localStorage.getItem("token"));
   
   
   })
@@ -36,13 +36,12 @@ export class MangeComponent implements OnInit {
   
   loggedIn()
   {
-const User=localStorage.getItem("user");
-return !!User;
+    return this.auth.loggedIn();
 
   }
   logout()
   {
-    localStorage.removeItem("user");
+    localStorage.removeItem("token");
     this.alert.message(" Manger logged out");
     
   }
@@ -50,7 +49,7 @@ return !!User;
 
 Switch(){
 
-  localStorage.removeItem("user");
+  localStorage.removeItem("token");
 
 
 }
