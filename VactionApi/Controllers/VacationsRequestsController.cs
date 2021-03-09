@@ -28,7 +28,7 @@ namespace VactionApi.Controllers
         {
             _repo = repo;
             _context = context;
-        
+
         }
 
         // GET: api/VacationsRequests/1
@@ -36,28 +36,16 @@ namespace VactionApi.Controllers
         [Route("{id}")]
         public async Task<IActionResult> GetsingelVactionss(int id)
         {
-            if (await _context.Vactionss.AnyAsync(x => x.EmpID == id))
+            var vaction = await _repo.FirstOrDefault(e => e.Id == id);
+            if (vaction != null)
             {
-                var td = (from v in _context.Vactionss
-                          join emp in _context.Employeess on id equals emp.ID
-                          where
-                          v.EmpID == emp.ID
-                          select new
-                          {
-                              v.Id,
-                              v.VactionDate,
-                              v.Type,
-                              v.Description,
-                              v.EmpID
-                          }).ToList();
-                return Ok(td);
-
+                return Ok(vaction);
             }
             else
                 return BadRequest("the Id number have not  any Vactions");
-           
 
-        }
+
+    }
 
 
         // GET: api/VacationsRequests
@@ -65,19 +53,20 @@ namespace VactionApi.Controllers
         [HttpGet("allvaction")]
         public async Task<IActionResult> GetAllVacations()
         {
-            var AllVactions = await _repo.GetAllEntity();
+            var AllVactions = await _repo.List();
 
             return Ok(AllVactions);
         }
+
         [HttpPost]
         [Route("add_vactions")]
-        public async Task<IActionResult> AddVactions( [FromBody]VactionDto v)
+        public async Task<IActionResult> AddVactions([FromBody] VactionDto v)
         {
             //temp object of vaction beacuse findEntity take Vaction object 
-            var Vac = new Vacation { EmpID = v.EmpID };
+            //var Vac = new Vacation { EmpID = v.EmpID };
 
-            var newVaction = await _repo.FindEntity(Vac);
-            if (newVaction != null)
+            //var newVaction = await _repo.FirstOrDefault(x => x.Employees.ID == Vac.EmpID);
+            if (v != null)
             {
                 var createVaction = new Vacation
                 {
@@ -89,53 +78,52 @@ namespace VactionApi.Controllers
 
                 };
 
-                var insertVaction = await _repo.AddEntity(createVaction);
+                var insertVaction = await _repo.Create(createVaction);
 
                 return Ok(new { insertVaction = "Vaction are added!" });
             }
-            return Unauthorized();
-        }
+            return BadRequest(" error in vaction proccess");
+            }
 
-        [HttpPost]
+        [HttpPut]
         [Route("update_Vactions/{id}")]
-        public async Task<IActionResult> UpdateVaction(VactionDto v)
+        public async Task<IActionResult> UpdateVaction(VactionDto v, int id)
         {
             //temp object of vaction beacuse findEntity take Vaction object 
-            var newVaction = new Vacation { Id = v.Id, EmpID = v.EmpID ,Description=v.Description,Type=v.Type,VactionDate=v.VactionDate};
-            if ( await _repo.EntityExists(newVaction))
-            { 
-            
-                var entity =  await _repo.FindEntity(newVaction);
+            var newVaction = new Vacation {EmpID = v.EmpID, Description = v.Description, Type = v.Type, VactionDate = v.VactionDate };
+            var entity = await _repo.Find(x => x.Id == id);
+            if (entity != null)
+            {
+                entity.Type = v.Type;
+                entity.Description = v.Description;
+                entity.VactionDate = v.VactionDate;
 
-                if (entity != null)
-                {
-                    await _repo.Update(newVaction);
-                    return Ok("Your Vaction have updated");
-                }
-                else
-                {
-                    return BadRequest("Error in Process of Update");
-                }
+                await _repo.Update(entity);
+                return Ok("Your Vaction is updated");
 
             }
-            return Unauthorized();
-
+            return BadRequest("Error in Process of Update");
+            
         }
+
+
+
         [HttpDelete]
         [Route("delete_Vactions/{id}")]
         public async Task<IActionResult> DeleteVaction(int id)
         {
-            int flag = await _repo.DeleteEntity(id);
+            Vacation entity = await _repo.FirstOrDefault(x => x.Id == id);
+            int flag = await _repo.DeleteEntity(entity);
             if (flag == 0)
                 return BadRequest("error in the Delete proccess");
 
 
-          return Ok("The Vaction successfully Deleted");
+            return Ok("The Vaction successfully Deleted");
 
 
         }
 
-        }
     }
+}
         
     

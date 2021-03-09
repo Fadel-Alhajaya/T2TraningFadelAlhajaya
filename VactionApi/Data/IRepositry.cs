@@ -1,27 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
-using vacation_System.Models;
 
 namespace VactionApi.Data
 {
-    public  interface IRepositry <TEntity>
+    public interface IRepositry<TEntity>
     {
-        Task<TEntity> AddEntity(TEntity t );
-        Task<bool> EntityExists(TEntity t);
-    //    Task<bool> CheckEntity(TEntity t, int id);
-        Task<TEntity> FindEntity(TEntity t);
-        TEntity GetEntity(int id);
-        Task<IList<TEntity>> GetAllEntity();
-         Task  Update(TEntity T);
-         Task<int> DeleteEntity(int myID);
+        Task<TEntity> Create(TEntity entity);
+        Task<TEntity> FirstOrDefault(Expression<Func<TEntity, bool>> predicate);
+        Task<List<TEntity>> List();
 
-
-
-
-
-
-
+        Task Update(TEntity T);
+        Task<int> DeleteEntity(TEntity T);
+        Task<TEntity> Find(Expression<Func<TEntity, bool>> predicate);
     }
 }

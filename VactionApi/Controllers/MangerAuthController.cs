@@ -24,13 +24,11 @@ namespace VactionApi.Controllers
     public class MangerAuthController : ControllerBase
     {
         private readonly IRepositry<Manger> _repo;
-        private readonly DataContext _context;
         private readonly IConfiguration _config;
 
-        public MangerAuthController(IRepositry<Manger> repo, DataContext context, IConfiguration config)
+        public MangerAuthController(IRepositry<Manger> repo, IConfiguration config)
         {
             _repo = repo;
-            _context = context;
             _config = config;
         }
         // Post: api/MangerAuth
@@ -40,7 +38,8 @@ namespace VactionApi.Controllers
             manger.Username = manger.Username.ToLower();
             //casting object because entityExist take manger object 
             var m = new Manger { Username = manger.Username };
-            if (await _repo.EntityExists(m))
+            var manger1 = await _repo.FirstOrDefault(x => x.Username == m.Username);
+            if (manger1 != null)
             {
                 return BadRequest("Manger is already Exists");
             }
@@ -48,11 +47,11 @@ namespace VactionApi.Controllers
             {
                 Username = manger.Username,
                 Password = manger.Password,
-                BirthDate= manger.BirthDate,
-                JobNumber= manger.JobNumber
-              
+                BirthDate = manger.BirthDate,
+                JobNumber = manger.JobNumber
+
             };
-            var createdManger = await _repo.AddEntity(manCreate);
+            var createdManger = await _repo.Create(manCreate);
 
             var clamis = new[]
              {
@@ -84,8 +83,8 @@ namespace VactionApi.Controllers
         [HttpPost("MangerLogin")]
         public async Task<IActionResult> LoginForManger(MangerForLoginDto manger)
         {
-            var m = new Manger { Username = manger.Username,Password=manger.Password };
-            var logMangerr = await _repo.FindEntity(m);
+            var m = new Manger { Username = manger.Username, Password = manger.Password };
+            var logMangerr = await _repo.FirstOrDefault(x=>x.Username== m.Username && x.Password== m.Password);
             if (logMangerr == null)
             {
                 return Unauthorized();

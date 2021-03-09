@@ -36,9 +36,8 @@ namespace VactionApi
             {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
-            services.AddScoped<IRepositry<Manger>, MangerRepository>();
-            services.AddScoped<IRepositry<Employee>, EmployeeRepository>();
-            services.AddScoped<IRepositry<Vacation>, VactionsRepository>();
+            services.AddScoped(typeof(IRepositry<>), typeof(Repository<>));
+            
             services.AddCors(options => options.AddPolicy("CorePolicy", builder => {
                 builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
             }

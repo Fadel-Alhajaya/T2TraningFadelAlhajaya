@@ -12,6 +12,7 @@ namespace VactionApi.Dtos
         public string Password { get; set; }
         public string JobNumber { get; set; }
         public string BirthDate { get; set; }
-        
+        public int MangerID { get; set; }
+
     }
 }
