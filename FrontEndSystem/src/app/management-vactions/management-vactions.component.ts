@@ -14,6 +14,7 @@ export class ManagementVactionsComponent implements OnInit {
   model: any={};
   Vactions:Vaction[];
   users: string;
+  checkStatues: number;
 
   constructor( private http:HttpClient,private auth:AuthServiceService, private alert:AlertifyService ,private vactionService:VactionsService) { }
 
@@ -62,6 +63,55 @@ AllVactions()
  error=>{this.alert.error("error Vaction !!");});
     
 }
+AcceptVaction(id)
+{
+  this.checkStatues=1;
+this.vactionService.MangeVaction(id).subscribe(next=>{
+     this.AllVactions();
+        console.log('Vaction accepted');
+        console.log(this.checkStatues);
+        
+        this.alert.success('Vaction accepted');
+  
+      },error=>{
+        this.AllVactions();
+        console.log(this.checkStatues);
+        console.log('Requests accepted');
+        console.log(id);
+        
+        this.alert.success('Requests accepted');
+  
+      })
+}
+RejectVaction(id)
+{
+  this.checkStatues=1;
+this.vactionService.MangeVaction(id).subscribe(next=>{
+     this.AllVactions();
+        console.log('Vaction Rejected');
+        this.alert.error('Vaction Rejected');
+        console.log(this.checkStatues);
+  
+      },error=>{
+        this.AllVactions();
+        console.log('Requests Rejected');
+        this.alert.error('Requests Rejected');
+  
+      })
+}
+checkRequest(ord)
+  {
+    if(ord==0)
+    {
 
+      this.checkStatues=1;
+return false;
+    }
+    else
+    {
+      this.checkStatues=1;
+      return true;
+    }
+  }
 
 }

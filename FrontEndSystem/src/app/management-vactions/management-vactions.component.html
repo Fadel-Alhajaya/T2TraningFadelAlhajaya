@@ -57,8 +57,8 @@
         <td>{{item.vactionDate}}</td>
         <td>{{item.description}}</td>
         <td>{{item.empID}}</td>
-        <td><button class="btn btn-success" [disabled]  >Accept</button>
-            <td><button class="btn btn-danger" [disabled]>Reject</button>
+        <td><button class="btn btn-success" [disabled]="checkRequest(0)" (click)="AcceptVaction(item.id)" >Accept</button>
+            <td><button class="btn btn-danger" [disabled]="checkRequest(0)"(click)="RejectVaction(item.id)" >Reject</button>
       </tr>
       </tbody>
       </table>

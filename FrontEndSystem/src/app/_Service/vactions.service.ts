@@ -35,4 +35,10 @@ export class VactionsService {
       return this.http.post(this.url+"VacationsRequests/"+"add_vactions",vaction);
      }
 
+     MangeVaction(id)
+     {
+      return this.http.post(this.url+"MangeVactionEmployee/Vaction_Mange/"+id,id);
+
+     }
+
 }
