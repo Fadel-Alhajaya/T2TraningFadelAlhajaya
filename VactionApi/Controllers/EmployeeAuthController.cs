@@ -40,11 +40,12 @@ namespace VactionApi.Controllers
         }
 
         //  GET: api/EmployeeAuth/
-        [AllowAnonymous]
-        [HttpGet("get")]
-        public string Get()
+       
+        [HttpGet("GetSingelEmployee/{id}")]
+        public IActionResult GetSingelEmployee( int id)
         {
-            return "value";
+            var td=  _repo.GetEntity(id);
+            return Ok(td);
         }
 
         // POST: api/EmployeeAuth
@@ -143,7 +144,7 @@ namespace VactionApi.Controllers
     
         
         [HttpGet("getEmployee")]
-        public async Task< IEnumerable> GetEmployee()
+        public async Task< IEnumerable> GetAllEmployee()
         {
             return await _repo.GetAllEntity();
         }

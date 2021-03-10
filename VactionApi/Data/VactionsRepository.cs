@@ -85,8 +85,8 @@ namespace VactionApi.Data
 
         Vacation IRepositry<Vacation>.GetEntity(int id)
         {
-            var employee = _context.Vactionss.FirstOrDefault(x => x.Id == id);
-            return employee;
+            var vacation = _context.Vactionss.FirstOrDefault(x => x.Id == id);
+            return vacation;
         }
 
        

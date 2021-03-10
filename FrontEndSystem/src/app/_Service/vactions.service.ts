@@ -22,12 +22,11 @@ export class VactionsService {
 
   }
 
-  getAllVactions( ):Observable<Vaction[]>{
- return  this.http.get<Vaction[]>(this.url +"VacationsRequests/allvaction",httpOptions);
+  getAllVactions():Observable<Vaction[]>{
+ return  this.http.get<Vaction[]>(this.url +"VacationsRequests/allvaction");
   }
   getSingelVactions( id):Observable<Vaction[]>{
-    this.Empid=this.auth.decodedToken?.nameid;
-    return  this.http.get<Vaction[]>(this.url +"VacationsRequests/"+id ,httpOptions);
+    return  this.http.get<Vaction[]>(this.url +"VacationsRequests/"+id );
      }
    
      addVactions(vaction:any)

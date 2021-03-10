@@ -24,9 +24,7 @@ import { VactionsService } from './_Service/vactions.service';
 import { MangerRegisterComponent } from './manger-register/manger-register.component';
 import { ManagementVactionsComponent } from './management-vactions/management-vactions.component';
 
-export function tokenGetter() {
-  return localStorage.getItem('token');
-}
+
 
 @NgModule({
   declarations: [
@@ -44,15 +42,7 @@ export function tokenGetter() {
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot(routes),
-    JwtModule.forRoot({
-      config: {
-   
-        tokenGetter: tokenGetter,
-        whitelistedDomains: ["localhost:5000"],
-        blacklistedRoutes: ['http://localhost:5000/api']
-      }
-    }),  
-   
+    JwtModule
   ],
   providers: [
     AuthServiceService,

@@ -5,6 +5,7 @@ import { AlertifyService } from '../_Service/alertify.service';
 import { AuthServiceService } from '../_Service/auth-service.service';
 import { EmployeeService } from '../_Service/employee.service';
 import { Employee } from '../_models/employee';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-employees',
@@ -13,12 +14,13 @@ import { Employee } from '../_models/employee';
 })
 export class EmployeesComponent implements OnInit {
   model: any={};
-  users: string;
+  
   url=environment.baseUrl;
   Employees:Employee[];
   registerMode=false;
+  
 
-  constructor( private http:HttpClient, private alert:AlertifyService, private auth:AuthServiceService, private employeeService:EmployeeService) { }
+  constructor( private http:HttpClient, private alert:AlertifyService, public auth:AuthServiceService, private employeeService:EmployeeService) { }
  
   ngOnInit(): void {
     this.getEmployee();
@@ -27,7 +29,7 @@ export class EmployeesComponent implements OnInit {
   {
   this.auth.login(this.model).subscribe(next=>{
  this.alert.success("logged in Successfuly");
- this.users=this.auth.name;
+ 
  
   },error=>
   {
@@ -54,7 +56,7 @@ return !!User;
 
 Switch(){
 
-  localStorage.removeItem("user");
+  localStorage.removeItem("token");
 
 
 }
@@ -75,4 +77,13 @@ error=>{this.alert.error("Error !!");
 console.log("Employee error");
 });
 }
+//getSingelEmployee()
+
+
+ // this.employeeService.getSingelEmployee(+this.auth.decodedToken?.nameid)._subscribe()=>
+ //   {
+ //     console.log("all employee"),
+ //   },
+ // )
+//}
 }
